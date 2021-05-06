@@ -18,6 +18,7 @@ public class Main {
         robot.addPart(ts1);
         robot.addPart(ts2);
         gear.forward();
+
         while (!QuitPane.quit()) {
             boolean t1 = ts1.isPressed();
             boolean t2 = ts2.isPressed();

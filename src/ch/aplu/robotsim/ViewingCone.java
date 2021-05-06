@@ -54,8 +54,8 @@ class ViewingCone extends Triangle
    * Be aware that there may be problems with double precision when using this 
    * constructor. 
    * @param standPoint
-   * @param baseCenter
-   * @param apexAngle in radian
+   * @param lookAtPoint
+   * @param angle in radian
    * @param infinite Set to true if the farthest visible point lies in infinity
    */
   public ViewingCone(GGVector standPoint, GGVector lookAtPoint, double angle, boolean infinite)

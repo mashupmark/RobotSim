@@ -140,7 +140,6 @@ class Triangle implements IObstacle
      * 
      * { m1, m2
      *   m3, m4 }
-     * @param entries
      */
     public GGMatrix(double m1, double m2, double m3, double m4)
     {

@@ -27,21 +27,19 @@ public class Main {
                 gear.backward(500);
                 gear.left(400);
                 gear.forward();
-            } else {
-                if (t1) {
-                    gear.backward(500);
-                    gear.left(400);
-                    gear.forward();
-                } else {
-                    if (t2) {
-                        gear.backward(500);
-                        gear.right(100);
-                        gear.forward();
-                    }
-                }
+            } else if (t1) {
+                gear.backward(500);
+                gear.left(400);
+                gear.forward();
+            } else if (t2) {
+                gear.backward(500);
+                gear.right(100);
+                gear.forward();
             }
+
             Tools.delay(20);
         }
         robot.exit();
+        System.exit(0);
     }
 }

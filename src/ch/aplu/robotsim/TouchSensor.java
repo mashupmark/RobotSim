@@ -23,6 +23,16 @@ import javax.swing.JOptionPane;
  */
 public class TouchSensor extends Part
 {
+
+  /**
+   * Thread for the TouchSensor
+   *
+   * Advantages:
+   *  1. Doesn't have its own separated object.
+   * Disadvantages:
+   *  1. Runnable consumes less memory than extending the Thread class. This is especially important on devices with little memory, like the EV3.
+   *  2. By implementing the Runnable Interface, the class can extend an other class and implement other interfaces.
+   */
   private class SensorThread extends Thread
   {
     public void run()

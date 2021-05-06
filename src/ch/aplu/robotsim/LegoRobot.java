@@ -320,6 +320,13 @@ public class LegoRobot
       pos = new GGVector(getLocationStart().x, getLocationStart().y); // Double coordinates
     }
 
+    /**
+     * Act updates the state of the robot including all its associated parts.
+     * By paralleling the update process of the individual parts it gets more efficient.
+     * That way also the communication to the motors is parallelized.
+     *
+     * Monitor Or Synchronized
+     */
     public void act()
     {
       synchronized (LegoRobot.class)
@@ -353,8 +360,9 @@ public class LegoRobot
 
         Gear gear = (Gear)(gg.getOneActor(Gear.class));
         ArrayList<Actor> motors = gg.getActors(Motor.class);
-        if (gear != null && !motors.isEmpty())
+        if (gear != null && !motors.isEmpty()) {
           fail("Error constructing LegoRobot" + "\nCannot add both Gear and Motor." + "\nApplication will terminate.");
+        }
 
         // ------------------ We have a gear --------------------
         if (gear != null)

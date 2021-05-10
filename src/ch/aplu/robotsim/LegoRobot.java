@@ -613,7 +613,7 @@ public class LegoRobot {
             }
         }
 
-        synchronized private void updateGear(Gear gear) {
+        private void updateGear(Gear gear) {
             if (gear == null) return;
 
             int speed = gear.getSpeed();

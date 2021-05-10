@@ -15,7 +15,8 @@ Author: Aegidius Pluess, www.aplu.ch
 
 package ch.aplu.robotsim;
 
-import ch.aplu.jgamegrid.*;
+import ch.aplu.jgamegrid.Actor;
+
 import java.awt.image.BufferedImage;
 
 /**
@@ -23,25 +24,24 @@ import java.awt.image.BufferedImage;
  * The touch is detected by a JGameGrid collision with a non-transparent
  * pixel of the obstacle sprite image.
  */
-public class Obstacle extends Actor
-{
-  /**
-   * Creates an obstacle from given image file.
-   * @param imageName the image to be used as obstacle
-   */
-  public Obstacle(String imageName)
-  {
-    super(imageName);
-    setCollisionImage();
-  }
-  
-  /**
-   * Creates an obstacle from given buffered image.
-   * @param bi the image to be used as obstacle
-   */
-  public Obstacle(BufferedImage bi)
-  {
-    super(bi);
-    setCollisionImage();
-  }
+public class Obstacle extends Actor {
+    /**
+     * Creates an obstacle from given image file.
+     *
+     * @param imageName the image to be used as obstacle
+     */
+    public Obstacle(String imageName) {
+        super(imageName);
+        setCollisionImage();
+    }
+
+    /**
+     * Creates an obstacle from given buffered image.
+     *
+     * @param bi the image to be used as obstacle
+     */
+    public Obstacle(BufferedImage bi) {
+        super(bi);
+        setCollisionImage();
+    }
 }

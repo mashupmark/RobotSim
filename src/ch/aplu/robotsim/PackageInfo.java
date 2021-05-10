@@ -18,10 +18,9 @@ package ch.aplu.robotsim;
 /**
  * Class to provide the current package version.
  */
-public class PackageInfo
-{
-  /**
-   * Current version of package.
-   */
-  public static String VERSION = SharedConstants.VERSION;
+public class PackageInfo {
+    /**
+     * Current version of package.
+     */
+    public static String VERSION = SharedConstants.VERSION;
 }

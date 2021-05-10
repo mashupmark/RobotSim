@@ -15,33 +15,32 @@ Author: Aegidius Pluess, www.aplu.ch
 
 package ch.aplu.robotsim;
 
-import ch.aplu.util.*;
+import ch.aplu.util.QuitPane;
 
 /**
  * Class to simulate the Nxt 'Escape' button by a 'Quit' button in a non-modal dialog.
  */
-public class Button
-{
-  /**
-   * A reference to the escape button.
-   */
-  public static Button ESCAPE = new Button();
+public class Button {
+    /**
+     * A reference to the escape button.
+     */
+    public static Button ESCAPE = new Button();
 
-  /**
-   * Returns true, if the button was pressed.
-   * @return true, if the button was pressed; otherwise false
-   */
-  public boolean isPressed()
-  {
-    return QuitPane.quit();
-  }
+    /**
+     * Returns true, if the button was pressed.
+     *
+     * @return true, if the button was pressed; otherwise false
+     */
+    public boolean isPressed() {
+        return QuitPane.quit();
+    }
 
-  /**
-   * Returns true, if the button was pressed.
-   * @return true, if the button was pressed; otherwise false
-   */
-  public boolean isDown()
-  {
-    return QuitPane.quit();
-  }
+    /**
+     * Returns true, if the button was pressed.
+     *
+     * @return true, if the button was pressed; otherwise false
+     */
+    public boolean isDown() {
+        return QuitPane.quit();
+    }
 }

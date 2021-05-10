@@ -18,12 +18,11 @@ package ch.aplu.robotsim;
 /**
  * Interface with declarations of a callback method to detect robot-obstacle collisions.
  */
-public interface CollisionListener extends java.util.EventListener
-{
-  /**
-   * Called in a new thread when the circumcircle of the robot overlaps
-   * with an obstacle. Any further events are inhibited until collide() returns.
-  */
-  void collide();
+public interface CollisionListener extends java.util.EventListener {
+    /**
+     * Called in a new thread when the circumcircle of the robot overlaps
+     * with an obstacle. Any further events are inhibited until collide() returns.
+     */
+    void collide();
 
 }

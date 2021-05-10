@@ -14,34 +14,36 @@
  */
 package ch.aplu.robotsim;
 
-import ch.aplu.jgamegrid.*;
+import ch.aplu.jgamegrid.GameGrid;
 
 /**
  * Interface with declarations of a callback method to detect robot-obstacle collisions.
  */
-public interface MouseListener extends java.util.EventListener
-{
-  /**
-   * Called when the left mouse button is pressed.
-   * @param gg a reference to the GameGrid
-   * @param x the x-coordinate of the mouse cursor
-   * @param y the y-coordinate of the mouse cursor
-   */
-  void mousePressed(GameGrid gg, int x, int y);
+public interface MouseListener extends java.util.EventListener {
+    /**
+     * Called when the left mouse button is pressed.
+     *
+     * @param gg a reference to the GameGrid
+     * @param x  the x-coordinate of the mouse cursor
+     * @param y  the y-coordinate of the mouse cursor
+     */
+    void mousePressed(GameGrid gg, int x, int y);
 
-  /**
-   * Called when the left mouse button is released.
-   * @param gg a reference to the GameGrid
-   * @param x the x-coordinate of the mouse cursor
-   * @param y the y-coordinate of the mouse cursor
-   */
-  void mouseReleased(GameGrid gg, int x, int y);
+    /**
+     * Called when the left mouse button is released.
+     *
+     * @param gg a reference to the GameGrid
+     * @param x  the x-coordinate of the mouse cursor
+     * @param y  the y-coordinate of the mouse cursor
+     */
+    void mouseReleased(GameGrid gg, int x, int y);
 
-  /**
-   * Called when the left mouse is dragged .
-   * @param gg a reference to the GameGrid
-   * @param x the x-coordinate of the mouse cursor
-   * @param y the y-coordinate of the mouse cursor
-   */
-  void mouseDragged(GameGrid gg, int x, int y);
+    /**
+     * Called when the left mouse is dragged .
+     *
+     * @param gg a reference to the GameGrid
+     * @param x  the x-coordinate of the mouse cursor
+     * @param y  the y-coordinate of the mouse cursor
+     */
+    void mouseDragged(GameGrid gg, int x, int y);
 }

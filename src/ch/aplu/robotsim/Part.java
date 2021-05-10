@@ -14,42 +14,37 @@ Author: Aegidius Pluess, www.aplu.ch
 
 package ch.aplu.robotsim;
 
-import ch.aplu.jgamegrid.*;
+import ch.aplu.jgamegrid.Actor;
+import ch.aplu.jgamegrid.Location;
 
 /**
  * Abstract class as ancestor of all parts.
  */
-public abstract class Part extends Actor
-{
-  private Location pos;
-  protected LegoRobot robot = null;
+public abstract class Part extends Actor {
+    private Location pos;
+    protected LegoRobot robot = null;
 
-  protected Part(String imageName, Location pos)
-  {
-    this(imageName, pos, 1);
-  }
+    protected Part(String imageName, Location pos) {
+        this(imageName, pos, 1);
+    }
 
-  protected Part(String imageName, Location pos, int nbSprites)
-  {
-    super(true, imageName, nbSprites, 360);
-    this.pos = pos;
-  }
-  
-  protected void setRobot(LegoRobot robot)
-  {
-    this.robot = robot;
-  }  
+    protected Part(String imageName, Location pos, int nbSprites) {
+        super(true, imageName, nbSprites, 360);
+        this.pos = pos;
+    }
 
-  protected void setPosition(Location pos)
-  {
-    this.pos = pos.clone();
-  }
+    protected void setRobot(LegoRobot robot) {
+        this.robot = robot;
+    }
 
-  protected Location getPosition()
-  {
-    return pos;
-  }
+    protected void setPosition(Location pos) {
+        this.pos = pos.clone();
+    }
 
-  // Called to cleanup
-  protected abstract void cleanup();
+    protected Location getPosition() {
+        return pos;
+    }
+
+    // Called to cleanup
+    protected abstract void cleanup();
 }

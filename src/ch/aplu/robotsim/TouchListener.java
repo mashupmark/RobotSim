@@ -18,17 +18,18 @@ package ch.aplu.robotsim;
 /**
  * Interface with declarations of callback methods for the touch sensor.
  */
-public interface TouchListener extends java.util.EventListener
-{
-  /**
-   * Called when the touch sensor is pressed.
-   * @param port the port where the sensor is plugged in
-   */
-  void pressed(SensorPort port);
+public interface TouchListener extends java.util.EventListener {
+    /**
+     * Called when the touch sensor is pressed.
+     *
+     * @param port the port where the sensor is plugged in
+     */
+    void pressed(SensorPort port);
 
-  /**
-   * Called when the touch sensor is released.
-   * @param port the port where the sensor is plugged in
-   */
-  void released(SensorPort port);
+    /**
+     * Called when the touch sensor is released.
+     *
+     * @param port the port where the sensor is plugged in
+     */
+    void released(SensorPort port);
 }

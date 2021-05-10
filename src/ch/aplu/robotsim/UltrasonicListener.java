@@ -17,22 +17,23 @@ package ch.aplu.robotsim;
 /**
  * Class with declarations of callback methods for the ultrasonic sensor.
  */
-public interface UltrasonicListener extends java.util.EventListener
-{
-   /**
-    * Called when the distance exceeds the trigger level.
-    * If no target is found in the beam area, a far event is triggered with
-    * value -1.
-    * @param port the port where the sensor is plugged in
-    * @param value the current distance
-    */
-   void far(SensorPort port, int value);
+public interface UltrasonicListener extends java.util.EventListener {
+    /**
+     * Called when the distance exceeds the trigger level.
+     * If no target is found in the beam area, a far event is triggered with
+     * value -1.
+     *
+     * @param port  the port where the sensor is plugged in
+     * @param value the current distance
+     */
+    void far(SensorPort port, int value);
 
-   /**
-    * Called when the distance falls below the trigger level.
-    * @param port the port where the sensor is plugged in
-    * @param value the current distance
-    */
-   void near(SensorPort port, int value);
-   
+    /**
+     * Called when the distance falls below the trigger level.
+     *
+     * @param port  the port where the sensor is plugged in
+     * @param value the current distance
+     */
+    void near(SensorPort port, int value);
+
 }

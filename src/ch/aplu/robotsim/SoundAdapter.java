@@ -18,24 +18,25 @@ package ch.aplu.robotsim;
 /**
  * Class with empty callback methods for the sound sensor.
  */
-public class SoundAdapter implements SoundListener
-{
-  /**
-   * Empty method called when the sound becomes louder than the trigger level.
-   * Override it to process the event.
-   * @param port the port where the sensor is plugged in
-   * @param level the current sound level
-   */
-   public void loud(SensorPort port, int level)
-   {}
+public class SoundAdapter implements SoundListener {
+    /**
+     * Empty method called when the sound becomes louder than the trigger level.
+     * Override it to process the event.
+     *
+     * @param port  the port where the sensor is plugged in
+     * @param level the current sound level
+     */
+    public void loud(SensorPort port, int level) {
+    }
 
-  /**
-   * Empty method called when the sound becomes lower than the trigger level.
-   * Override it to process the event.
-   * @param port the port where the sensor is plugged in
-   * @param level the current sound level
-   */
-   public void quiet(SensorPort port, int level)
-   {}
+    /**
+     * Empty method called when the sound becomes lower than the trigger level.
+     * Override it to process the event.
+     *
+     * @param port  the port where the sensor is plugged in
+     * @param level the current sound level
+     */
+    public void quiet(SensorPort port, int level) {
+    }
 }
 

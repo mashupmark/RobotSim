@@ -3,21 +3,21 @@
 
 package ch.aplu.robotsim;
 
-import java.util.List;
-
 import ch.aplu.jgamegrid.GGVector;
+
+import java.util.List;
 
 interface IObstacle {
 
-	GGVector closestPointTo(GGVector p);
-	
-	/**
-	 * returns true if the given point lies inside (or on the
-	 * edge) of the obstacle.
-	 */
+    GGVector closestPointTo(GGVector p);
+
+    /**
+     * returns true if the given point lies inside (or on the
+     * edge) of the obstacle.
+     */
     boolean liesInside(GGVector p);
 
-	List<GGVector> getIntersectionPointsWith(
+    List<GGVector> getIntersectionPointsWith(
             LineSegment[] viewBoarderLines);
 
 }

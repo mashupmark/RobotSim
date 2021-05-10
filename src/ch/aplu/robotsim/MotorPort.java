@@ -18,24 +18,22 @@ package ch.aplu.robotsim;
 /**
  * Useful declarations for motor port connections.
  */
-public class MotorPort
-{
-  /**
-   * A motor port for a motor connected to port A.
-   */
-  public static final MotorPort A = new MotorPort(1);
-  /**
-   * A motor port for a motor connected to port B.
-   */
-  public static final MotorPort B = new MotorPort(2);
-  /**
-   * A motor port for a motor connected to port C.
-   */
-  public static MotorPort C = new MotorPort(3);
-  private final int portNb;
+public class MotorPort {
+    /**
+     * A motor port for a motor connected to port A.
+     */
+    public static final MotorPort A = new MotorPort(1);
+    /**
+     * A motor port for a motor connected to port B.
+     */
+    public static final MotorPort B = new MotorPort(2);
+    /**
+     * A motor port for a motor connected to port C.
+     */
+    public static MotorPort C = new MotorPort(3);
+    private final int portNb;
 
-  private MotorPort(int portNb)
-  {
-    this.portNb = portNb;
-  }
+    private MotorPort(int portNb) {
+        this.portNb = portNb;
+    }
 }

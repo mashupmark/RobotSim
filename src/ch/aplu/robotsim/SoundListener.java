@@ -18,19 +18,20 @@ package ch.aplu.robotsim;
 /**
  * Class with declaration of callback methods for the sound sensor.
  */
-public interface SoundListener extends java.util.EventListener
-{
-  /**
-   * Called when the sound becomes louder than the trigger level.
-   * @param port the port where the sensor is plugged in
-   * @param level the current sound level
-   */
-  void loud(SensorPort port, int level);
+public interface SoundListener extends java.util.EventListener {
+    /**
+     * Called when the sound becomes louder than the trigger level.
+     *
+     * @param port  the port where the sensor is plugged in
+     * @param level the current sound level
+     */
+    void loud(SensorPort port, int level);
 
-  /**
-   * Called when the sound becomes lower than the trigger level.
-   * @param port the port where the sensor is plugged in
-   * @param level the current sound level
-   */
-  void quiet(SensorPort port, int level);
+    /**
+     * Called when the sound becomes lower than the trigger level.
+     *
+     * @param port  the port where the sensor is plugged in
+     * @param level the current sound level
+     */
+    void quiet(SensorPort port, int level);
 }

@@ -18,22 +18,23 @@ package ch.aplu.robotsim;
 /**
  * Class with empty callback methods for the touch sensor.
  */
-public class TouchAdapter implements TouchListener
-{
-  /**
-   * Empty method called when the touch sensor is pressed.
-   * Override it to process the event.
-   * @param port the port where the sensor is plugged in
-   */
-  public void pressed(SensorPort port)
-  {}
+public class TouchAdapter implements TouchListener {
+    /**
+     * Empty method called when the touch sensor is pressed.
+     * Override it to process the event.
+     *
+     * @param port the port where the sensor is plugged in
+     */
+    public void pressed(SensorPort port) {
+    }
 
-  /**
-   * Empty method called when the touch sensor is released.
-   * Override it to process the event.
-   * @param port the port where the sensor is plugged in
-   */
-  public void released(SensorPort port)
-  {}
+    /**
+     * Empty method called when the touch sensor is released.
+     * Override it to process the event.
+     *
+     * @param port the port where the sensor is plugged in
+     */
+    public void released(SensorPort port) {
+    }
 
 }

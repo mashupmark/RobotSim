@@ -280,15 +280,15 @@ public class LegoRobot {
          * Act updates the state of the robot including all its associated parts.
          * By paralleling the update process of the individual parts it gets more efficient.
          * That way also the communication to the motors is parallelized.
-         *
+         * <p>
          * While the act method should only be accessed by one thread at a time, its contents are independent from each other and thus can be invoked in parallel.
-         *
+         * <p>
          * Advantages:
-         *  1. By paralleling the invocation of the individual part updates, a better overall performance can be archived.
-         *  2. On single threaded hardware the parts can still run in serial or concurrently.
+         * 1. By paralleling the invocation of the individual part updates, a better overall performance can be archived.
+         * 2. On single threaded hardware the parts can still run in serial or concurrently.
          * Disadvantages:
-         *  1. The individual parts must be updated at the end of act and therefore need to be joined before exiting the method.
-         *  2. Otherwise the individual update methods would need to be synchronized, in order to prevent possible race conditions.
+         * 1. The individual parts must be updated at the end of act and therefore need to be joined before exiting the method.
+         * 2. Otherwise the individual update methods would need to be synchronized, in order to prevent possible race conditions.
          */
         public void act() {
             if (isCollisionInfo) {

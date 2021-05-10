@@ -14,14 +14,14 @@ Author: Aegidius Pluess, www.aplu.ch
 
 package ch.aplu.robotsim;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * Annotation definition for applications with no
  * public static void main() method.
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NoMain
-{
-  
+public @interface NoMain {
+
 }

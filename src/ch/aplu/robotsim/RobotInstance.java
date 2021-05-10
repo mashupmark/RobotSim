@@ -14,37 +14,32 @@ package ch.aplu.robotsim;
 
 import ch.aplu.jgamegrid.GameGrid;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
- Holder of global Robot instance
+ * Holder of global Robot instance
  */
-public class RobotInstance
-{
-  private static LegoRobot globalRobot = null;
+public class RobotInstance {
+    private static LegoRobot globalRobot = null;
 
-  public static void setRobot(LegoRobot robot)
-  {
-    globalRobot = robot;
-  }
-
-  public static LegoRobot getRobot()
-  {
-    return globalRobot;
-  }
-  
-  public static void checkRobot()
-  {
-    if (globalRobot == null)
-    {
-      JOptionPane.showMessageDialog(null,
-        "Create Robot instance first",
-        "Fatal Error", JOptionPane.ERROR_MESSAGE);
-      if (GameGrid.getClosingMode() == GameGrid.ClosingMode.TerminateOnClose
-        || GameGrid.getClosingMode() == GameGrid.ClosingMode.AskOnClose)
-        System.exit(1);
-      if (GameGrid.getClosingMode() == GameGrid.ClosingMode.DisposeOnClose)
-        throw new RuntimeException("Create Robot instance first");
+    public static void setRobot(LegoRobot robot) {
+        globalRobot = robot;
     }
-  }
+
+    public static LegoRobot getRobot() {
+        return globalRobot;
+    }
+
+    public static void checkRobot() {
+        if (globalRobot == null) {
+            JOptionPane.showMessageDialog(null,
+                    "Create Robot instance first",
+                    "Fatal Error", JOptionPane.ERROR_MESSAGE);
+            if (GameGrid.getClosingMode() == GameGrid.ClosingMode.TerminateOnClose
+                    || GameGrid.getClosingMode() == GameGrid.ClosingMode.AskOnClose)
+                System.exit(1);
+            if (GameGrid.getClosingMode() == GameGrid.ClosingMode.DisposeOnClose)
+                throw new RuntimeException("Create Robot instance first");
+        }
+    }
 }

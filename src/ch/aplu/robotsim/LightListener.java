@@ -18,19 +18,20 @@ package ch.aplu.robotsim;
 /**
  * Interface with declarations of callback methods for the light sensor.
  */
-public interface LightListener extends java.util.EventListener
-{
-  /**
-   * Called when the light becomes brighter than the trigger level.
-   * @param port the port where the sensor is plugged in
-   * @param value the current light level
-   */
-  void bright(SensorPort port, int value);
+public interface LightListener extends java.util.EventListener {
+    /**
+     * Called when the light becomes brighter than the trigger level.
+     *
+     * @param port  the port where the sensor is plugged in
+     * @param value the current light level
+     */
+    void bright(SensorPort port, int value);
 
-   /**
-   * Called when the light becomes darker than the trigger level.
-   * @param port the port where the sensor is plugged in
-   * @param value the current light level
-   */
-   void dark(SensorPort port, int value);
+    /**
+     * Called when the light becomes darker than the trigger level.
+     *
+     * @param port  the port where the sensor is plugged in
+     * @param value the current light level
+     */
+    void dark(SensorPort port, int value);
 }

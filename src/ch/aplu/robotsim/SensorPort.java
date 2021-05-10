@@ -18,29 +18,27 @@ package ch.aplu.robotsim;
 /**
  * Useful declarations for sensor port connections.
  */
-public class SensorPort
-{
-  /**
-   * A sensor port for a sensor connected to port S1.
-   */
-  public static final SensorPort S1 = new SensorPort(1);
-  /**
-   * A sensor port for a sensor connected to port S2.
-   */
-  public static final SensorPort S2 = new SensorPort(2);
-  /**
-   * A sensor port for a sensor connected to port S3.
-   */
-  public static final SensorPort S3 = new SensorPort(3);
-  /**
-   * A sensor port for a sensor connected to port S4.
-   */
-  public static final SensorPort S4 = new SensorPort(4);
-  private final int portNb;
+public class SensorPort {
+    /**
+     * A sensor port for a sensor connected to port S1.
+     */
+    public static final SensorPort S1 = new SensorPort(1);
+    /**
+     * A sensor port for a sensor connected to port S2.
+     */
+    public static final SensorPort S2 = new SensorPort(2);
+    /**
+     * A sensor port for a sensor connected to port S3.
+     */
+    public static final SensorPort S3 = new SensorPort(3);
+    /**
+     * A sensor port for a sensor connected to port S4.
+     */
+    public static final SensorPort S4 = new SensorPort(4);
+    private final int portNb;
 
-  private SensorPort(int portNb)
-  {
-    this.portNb = portNb;
-  }
+    private SensorPort(int portNb) {
+        this.portNb = portNb;
+    }
 
 }

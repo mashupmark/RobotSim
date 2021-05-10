@@ -17,26 +17,27 @@ package ch.aplu.robotsim;
 /**
  * Class with empty callback methods for the ultrasonic sensor.
  */
-public class UltrasonicAdapter implements UltrasonicListener
-{
-   /**
-    * Empty method called when the distance exceeds the trigger level.
-    * If no target is found in the beam area, a far event is triggered with
-    * value -1.
-    * Override it to process the event.
-    * @param port the port where the sensor is plugged in
-    * @param value the current distance
-    */
-   public void far(SensorPort port, int value)
-   {}
+public class UltrasonicAdapter implements UltrasonicListener {
+    /**
+     * Empty method called when the distance exceeds the trigger level.
+     * If no target is found in the beam area, a far event is triggered with
+     * value -1.
+     * Override it to process the event.
+     *
+     * @param port  the port where the sensor is plugged in
+     * @param value the current distance
+     */
+    public void far(SensorPort port, int value) {
+    }
 
-   /**
-    * Empty method called when the distance falls below the trigger level.
-    * Override it to process the event.
-    * @param port the port where the sensor is plugged in
-    * @param value the current distance
-    */
-   public void near(SensorPort port, int value)
-   {}   
-   
+    /**
+     * Empty method called when the distance falls below the trigger level.
+     * Override it to process the event.
+     *
+     * @param port  the port where the sensor is plugged in
+     * @param value the current distance
+     */
+    public void near(SensorPort port, int value) {
+    }
+
 }

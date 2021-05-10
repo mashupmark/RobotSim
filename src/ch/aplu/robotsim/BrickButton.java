@@ -15,30 +15,29 @@ package ch.aplu.robotsim;
 /**
  * Interface to define constants for the brick buttons.
  */
-public interface BrickButton
-{
-  /**
-   * Constant for the UP button.
-   */
-  int ID_UP = 0x01;
-  /**
-   * Constant for the DOWN button.
-   */
-  int ID_DOWN = 0x04;
-  /**
-   * Constant for the LEFT button.
-   */
-  int ID_LEFT = 0x10;
-  /**
-   * Constant for the RIGHT button.
-   */
-  int ID_RIGHT = 0x08;
-  /**
-   * Constant for the ENTER button.
-   */
-  int ID_ENTER = 0x02;
-  /**
-   * Constant for the ESCAPE button.
-   */
-  int ID_ESCAPE = 0x20;
+public interface BrickButton {
+    /**
+     * Constant for the UP button.
+     */
+    int ID_UP = 0x01;
+    /**
+     * Constant for the DOWN button.
+     */
+    int ID_DOWN = 0x04;
+    /**
+     * Constant for the LEFT button.
+     */
+    int ID_LEFT = 0x10;
+    /**
+     * Constant for the RIGHT button.
+     */
+    int ID_RIGHT = 0x08;
+    /**
+     * Constant for the ENTER button.
+     */
+    int ID_ENTER = 0x02;
+    /**
+     * Constant for the ESCAPE button.
+     */
+    int ID_ESCAPE = 0x20;
 }

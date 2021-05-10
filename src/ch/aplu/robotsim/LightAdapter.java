@@ -18,24 +18,25 @@ package ch.aplu.robotsim;
 /**
  * Class with empty callback methods for the light sensor.
  */
-public class LightAdapter implements LightListener
-{
-  /**
-   * Empty method called when the light becomes brighter than the trigger level.
-   * Override it to process the event.
-   * @param port the port where the sensor is plugged in
-   * @param value the current light level.
-   */
-   public void bright(SensorPort port, int value)
-   {}
+public class LightAdapter implements LightListener {
+    /**
+     * Empty method called when the light becomes brighter than the trigger level.
+     * Override it to process the event.
+     *
+     * @param port  the port where the sensor is plugged in
+     * @param value the current light level.
+     */
+    public void bright(SensorPort port, int value) {
+    }
 
-   /**
-   * Empty method called when the light becomes darker than the trigger level.
-   * Override it to process the event.
-   * @param port the port where the sensor is plugged in
-   * @param value the current light value
-   */
-   public void dark(SensorPort port, int value)
-   {}
+    /**
+     * Empty method called when the light becomes darker than the trigger level.
+     * Override it to process the event.
+     *
+     * @param port  the port where the sensor is plugged in
+     * @param value the current light value
+     */
+    public void dark(SensorPort port, int value) {
+    }
 }
 

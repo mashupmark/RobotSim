@@ -17,19 +17,19 @@ package ch.aplu.robotsim;
 /**
  * Interface with declarations of a callback method to detect button press events.
  */
-public interface ButtonListener extends java.util.EventListener
-{
-  /**
-   * Called when one of the buttons is hit. The brick buttons are simulated 
-   * by keyboard keys with the following mapping:<br>
-   * ESCAPE button->escape key<br>
-   * ENTER button->enter key<br>
-   * UP button (only EV3)->cursor up key<br>
-   * DOWN button (only EV3)->cursor down key<br>
-   * LEFT button->cursor left key<br>
-   * RIGHT button->cursor right key<br>
-   * @param buttonID the ID of the button as defined in BrickButton interface
-   */
-  void buttonHit(int buttonID);
+public interface ButtonListener extends java.util.EventListener {
+    /**
+     * Called when one of the buttons is hit. The brick buttons are simulated
+     * by keyboard keys with the following mapping:<br>
+     * ESCAPE button->escape key<br>
+     * ENTER button->enter key<br>
+     * UP button (only EV3)->cursor up key<br>
+     * DOWN button (only EV3)->cursor down key<br>
+     * LEFT button->cursor left key<br>
+     * RIGHT button->cursor right key<br>
+     *
+     * @param buttonID the ID of the button as defined in BrickButton interface
+     */
+    void buttonHit(int buttonID);
 
 }

@@ -17,9 +17,8 @@ package ch.aplu.robotsim;
 /**
  * Class to select user defined initial conditions of the
  * playground and the Nxt robot.<br><br>
- *
+ * <p>
  * For backward compatibility with pre-EV3 programs.
  */
-public class NxtContext extends RobotContext
-{
+public class NxtContext extends RobotContext {
 }

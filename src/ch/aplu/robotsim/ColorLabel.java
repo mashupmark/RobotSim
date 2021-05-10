@@ -18,34 +18,33 @@ package ch.aplu.robotsim;
 /**
  * Enumeration of detectable colors for color sensors.
  */
-public enum ColorLabel
-{
-  /**
-   * Color not detectable.
-   */
-  UNDEFINED,
-  /**
-   Black color.
-   */
-  BLACK,
-  /**
-   Blue color.
-   */
-  BLUE,
-  /**
-   Green color.
-   */
-  GREEN,
-  /**
-   Yellow color.
-   */
-  YELLOW,
-  /**
-   Red color.
-   */
-  RED,
-  /**
-   White color.
-   */
-  WHITE
+public enum ColorLabel {
+    /**
+     * Color not detectable.
+     */
+    UNDEFINED,
+    /**
+     * Black color.
+     */
+    BLACK,
+    /**
+     * Blue color.
+     */
+    BLUE,
+    /**
+     * Green color.
+     */
+    GREEN,
+    /**
+     * Yellow color.
+     */
+    YELLOW,
+    /**
+     * Red color.
+     */
+    RED,
+    /**
+     * White color.
+     */
+    WHITE
 }

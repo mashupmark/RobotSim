@@ -13,7 +13,7 @@
 package ch.aplu.robotsim;
 
 import ch.aplu.jgamegrid.GameGrid;
-import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
 /**

@@ -32,12 +32,12 @@ public class RobotContext
   protected static boolean isNavigationBar = false;
   protected static boolean isStatusBar = false;
   protected static int statusBarHeight;
-  protected static ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>();
-  protected static ArrayList<Location> obstacleLocations = new ArrayList<Location>();
-  protected static ArrayList<Target> targets = new ArrayList<Target>();
-  protected static ArrayList<Location> targetLocations = new ArrayList<Location>();
-  protected static ArrayList<Torch> torches = new ArrayList<Torch>();
-  protected static ArrayList<Shadow> shadows = new ArrayList<Shadow>();
+  protected static ArrayList<Obstacle> obstacles = new ArrayList<>();
+  protected static ArrayList<Location> obstacleLocations = new ArrayList<>();
+  protected static ArrayList<Target> targets = new ArrayList<>();
+  protected static ArrayList<Location> targetLocations = new ArrayList<>();
+  protected static ArrayList<Torch> torches = new ArrayList<>();
+  protected static final ArrayList<Shadow> shadows = new ArrayList<>();
   protected static boolean isRun = true;
   protected static int xLoc = -1;
   protected static int yLoc = -1;
@@ -51,7 +51,7 @@ public class RobotContext
   /**
    * Channel obstacle.
    */
-  public static Obstacle channel = new Obstacle("sprites/channel.gif");
+  public static final Obstacle channel = new Obstacle("sprites/channel.gif");
 
   /**
    * Creates a RobotContext instance.
@@ -83,27 +83,27 @@ public class RobotContext
     isStatusBar = false;
 
     if (obstacles == null)
-      obstacles = new ArrayList<Obstacle>();
+      obstacles = new ArrayList<>();
     else
       obstacles.clear();
 
     if (obstacleLocations == null)
-      obstacleLocations = new ArrayList<Location>();
+      obstacleLocations = new ArrayList<>();
     else
       obstacleLocations.clear();
 
     if (targets == null)
-      targets = new ArrayList<Target>();
+      targets = new ArrayList<>();
     else
       targets.clear();
 
     if (targetLocations == null)
-      targetLocations = new ArrayList<Location>();
+      targetLocations = new ArrayList<>();
     else
       targetLocations.clear();
 
     if (torches == null)
-      torches = new ArrayList<Torch>();
+      torches = new ArrayList<>();
     else
       torches.clear();
 

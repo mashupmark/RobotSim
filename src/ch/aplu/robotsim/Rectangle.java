@@ -3,7 +3,6 @@
 
 package ch.aplu.robotsim;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,7 +11,7 @@ import ch.aplu.jgamegrid.GGVector;
 
 class Rectangle implements IObstacle
 {
-  LinkedList<Triangle> triangles;
+  final LinkedList<Triangle> triangles;
   /**
    * careful, this array does not provide any functionality. It is just for easier
    * retrieving all 4 vertices through getVertices.
@@ -21,12 +20,11 @@ class Rectangle implements IObstacle
 
   /**
    * Could also be more generalized
-   * @param r
    */
   public Rectangle(GGRectangle r)
   {
     this.vertices = r.getVertexes();
-    triangles = new LinkedList<Triangle>();
+    triangles = new LinkedList<>();
     triangles.add(new Triangle(vertices[0], vertices[1], vertices[3]));
     triangles.add(new Triangle(vertices[1], vertices[2], vertices[3]));
   }
@@ -76,7 +74,7 @@ class Rectangle implements IObstacle
   @Override
   public List<GGVector> getIntersectionPointsWith(LineSegment[] viewBoarderLines)
   {
-    LinkedList<GGVector> intersectionPoints = new LinkedList<GGVector>();
+    LinkedList<GGVector> intersectionPoints = new LinkedList<>();
     for (Triangle t : triangles)
       intersectionPoints.addAll(t.getIntersectionPointsWith(viewBoarderLines));
     return intersectionPoints;

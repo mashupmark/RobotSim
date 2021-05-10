@@ -54,15 +54,15 @@ public class Tools
     if (GameGrid.isDisposed())
       return;
     LegoRobot r = RobotInstance.getRobot();
-    int simulationPeriod = (int)r.getRobot().gameGrid.simulationPeriod;
+    int simulationPeriod = LegoRobot.getRobot().gameGrid.simulationPeriod;
     if (duration < simulationPeriod)
     {
       _delay(duration);
       return;
     }
-    int start = r.getRobot().nbCycles;
+    int start = LegoRobot.getRobot().nbCycles;
     int nbCycles = (int)(1.0 * duration / simulationPeriod + 0.5);
-    while (r.getRobot().nbCycles - start < nbCycles && !GameGrid.isDisposed())
+    while (LegoRobot.getRobot().nbCycles - start < nbCycles && !GameGrid.isDisposed())
       _delay(1);
   }
 
@@ -72,7 +72,7 @@ public class Tools
     {
       Thread.sleep(time);
     }
-    catch (InterruptedException ex)
+    catch (InterruptedException ignored)
     {
     }
 

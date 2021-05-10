@@ -41,15 +41,15 @@ class Circle implements IObstacle {
 	@Override
 	public List<GGVector> getIntersectionPointsWith(
 		LineSegment[] viewBoarderLines) {
-		LinkedList<GGVector> intersectionPoints = new LinkedList<GGVector>();
+		LinkedList<GGVector> intersectionPoints = new LinkedList<>();
 		for (LineSegment l: viewBoarderLines) {
 			GGVector startCentered = l.start.sub(center);
 			double a = l.direction.magnitude2();
 			double b = 2*startCentered.dot(l.direction);
 			double c = startCentered.magnitude2() - radius*radius;
 			double discriminant = b*b - 4*a*c;
-			if (discriminant < 0)
-				continue; //only imaginary solutions
+			if (discriminant < 0) {
+			} //only imaginary solutions
 			else {
 				int[] plusminus = {-1, 1};
 				for (int i: plusminus) {

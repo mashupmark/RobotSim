@@ -15,7 +15,6 @@ Author: Aegidius Pluess, www.aplu.ch
 package ch.aplu.robotsim;
 
 import java.lang.annotation.*;
-import java.lang.annotation.RetentionPolicy;
 
 /**
  * Annotation definition for applications with no

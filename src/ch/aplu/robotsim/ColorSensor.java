@@ -32,7 +32,7 @@ public class ColorSensor extends Part
    * ColorSensor.colorCubes[1] = new int[]{0, 2, 0, 2, 0, 2};
    *</code>
    */
-  public static int[][] colorCubes =
+  public static final int[][] colorCubes =
   {
     new int[]
     {

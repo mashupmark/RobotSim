@@ -232,27 +232,17 @@ public class UltrasonicSensor extends Part
     if (value >= triggerLevel && !isFarNotified)
     {
       isFarNotified = true;
-      new Thread()
-      {
-        public void run()
-        {
-          if (value == Integer.MAX_VALUE)
-            ultrasonicListener.far(port, -1);
-          else
-            ultrasonicListener.far(port, value);
-        }
-      }.start();
+      new Thread(() -> {
+        if (value == Integer.MAX_VALUE)
+          ultrasonicListener.far(port, -1);
+        else
+          ultrasonicListener.far(port, value);
+      }).start();
     }
     if (value < triggerLevel && !isNearNotified)
     {
       isNearNotified = true;
-      new Thread()
-      {
-        public void run()
-        {
-          ultrasonicListener.near(port, value);
-        }
-      }.start();
+      new Thread(() -> ultrasonicListener.near(port, value)).start();
     }
   }
 

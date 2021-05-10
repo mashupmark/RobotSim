@@ -7,15 +7,13 @@ import ch.aplu.jgamegrid.GGVector;
 
 class LineSegment
 {
-  protected GGVector start;
-  protected GGVector direction;
+  protected final GGVector start;
+  protected final GGVector direction;
   private boolean infinite;
 
   /**
    * A line that starts at the point <code>start</code>
    * and has the length (!!) and direction of <code>direction</code>
-   * @param start
-   * @param direction
    */
   public LineSegment(GGVector start, GGVector direction)
   {

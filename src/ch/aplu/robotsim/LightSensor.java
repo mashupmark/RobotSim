@@ -189,24 +189,12 @@ public class LightSensor extends Part
     if (value >= triggerLevel && !isBrightNotified)
     {
       isBrightNotified = true;
-      new Thread()
-      {
-        public void run()
-        {
-          lightListener.bright(port, value);
-        }
-      }.start();
+      new Thread(() -> lightListener.bright(port, value)).start();
     }
     if (value < triggerLevel && !isDarkNotified)
     {
       isDarkNotified = true;
-      new Thread()
-      {
-        public void run()
-        {
-          lightListener.dark(port, value);
-        }
-      }.start();
+      new Thread(() -> lightListener.dark(port, value)).start();
     }
   }
 

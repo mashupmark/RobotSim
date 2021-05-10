@@ -291,7 +291,7 @@ public class LegoRobot {
          *  2. Otherwise the individual update methods would need to be synchronized, in order to prevent possible race conditions.
          */
         public void act() {
-            if (!title.equals("") && isCollisionInfo) {
+            if (isCollisionInfo) {
                 gg.setTitle("");
             }
             // Add new obstacles as collision actor
@@ -722,10 +722,9 @@ public class LegoRobot {
             double r = Math.sqrt(pos.x * pos.x + pos.y * pos.y);
             double phi = Math.atan2(pos.y, pos.x);
             double dir = getDirection() * Math.PI / 180;
-            Location loc = new Location(
+            return new Location(
                     (int) (Math.round(getX() + r * Math.cos(dir + phi))),
                     (int) (Math.round(getY() + r * Math.sin(dir + phi))));
-            return loc;
         }
     }
     // ---------------------- End of class Robot ---------------------
@@ -901,17 +900,17 @@ public class LegoRobot {
      * Center of a circle to detect robot-obstacle collisions
      * (pixel coordinates relative to center of robot image, default: (-13, 0)).
      */
-    public static Point collisionCenter = new Point(-13, 0);
+    public static final Point collisionCenter = new Point(-13, 0);
     /**
      * Radius of a circle to detect robot-obstacle collisions
      * (in pixels, default: 20).
      */
-    public static int collisionRadius = 16;
+    public static final int collisionRadius = 16;
     private static GameGrid gg;
     private static Robot robot;
     private int nbObstacles = 0;
     private final String title = "RobotSim V" + SharedConstants.VERSION + " [www.aplu.ch]";
-    private final ArrayList<Part> parts = new ArrayList<Part>();
+    private final ArrayList<Part> parts = new ArrayList<>();
     private double rotInc;
     private int currentSpeed;
     private MotorState oldMotorStateA = MotorState.STOPPED;

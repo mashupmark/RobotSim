@@ -13,7 +13,7 @@ import java.awt.Point;
 
 class Triangle implements IObstacle
 {
-  protected GGVector[] vertices = new GGVector[3];
+  protected final GGVector[] vertices = new GGVector[3];
 
   public Triangle(GGVector a, GGVector b, GGVector c)
   {
@@ -33,9 +33,7 @@ class Triangle implements IObstacle
    * Maps the given Point to the standard coordinate system 
    * (defined by the triangle around (0,0), (0,1), (1,0))
    * with the triangle defining the original coordinate system.
-   * 
-   * @param p
-   * @return
+   *
    */
   public GGVector toTriangleCoordinates(GGVector p)
   {
@@ -102,7 +100,7 @@ class Triangle implements IObstacle
   public List<GGVector> getIntersectionPointsWith(
     LineSegment[] viewBoarderLines)
   {
-    LinkedList<GGVector> intersectionPoints = new LinkedList<GGVector>();
+    LinkedList<GGVector> intersectionPoints = new LinkedList<>();
     for (LineSegment l : viewBoarderLines)
     {
       for (int i = 0; i < 3; i++)
@@ -126,7 +124,7 @@ class Triangle implements IObstacle
    * Small helper class to make coordinate transformation easier. 
    * Only supports 2x2 Matrices!
    */
-  class GGMatrix
+  static class GGMatrix
   {
     private double[] entries;
 
@@ -152,8 +150,7 @@ class Triangle implements IObstacle
 
     /**
      * Returns a new GGVector and lets the GGVector given as argument untouched.
-     * @param v
-     * @return the given GGVector multiplied the matrix 
+     * @return the given GGVector multiplied the matrix
      */
     public GGVector transform(GGVector v)
     {

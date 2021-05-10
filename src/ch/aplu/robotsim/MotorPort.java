@@ -23,11 +23,11 @@ public class MotorPort
   /**
    * A motor port for a motor connected to port A.
    */
-  public static MotorPort A = new MotorPort(1);
+  public static final MotorPort A = new MotorPort(1);
   /**
    * A motor port for a motor connected to port B.
    */
-  public static MotorPort B = new MotorPort(2);
+  public static final MotorPort B = new MotorPort(2);
   /**
    * A motor port for a motor connected to port C.
    */

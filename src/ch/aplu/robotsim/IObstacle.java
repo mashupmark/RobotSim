@@ -3,7 +3,6 @@
 
 package ch.aplu.robotsim;
 
-import java.util.Collection;
 import java.util.List;
 
 import ch.aplu.jgamegrid.GGVector;
@@ -15,8 +14,6 @@ interface IObstacle {
 	/**
 	 * returns true if the given point lies inside (or on the
 	 * edge) of the obstacle.
-	 * @param p
-	 * @return
 	 */
     boolean liesInside(GGVector p);
 

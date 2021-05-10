@@ -67,9 +67,9 @@ public class Led extends Part
     {
       try
       {
-        Thread.currentThread().sleep(ms);
+        sleep(ms);
       }
-      catch (InterruptedException ex)
+      catch (InterruptedException ignored)
       {
       }
     }
@@ -102,7 +102,7 @@ public class Led extends Part
       {
         flasher.join();
       }
-      catch (InterruptedException ex)
+      catch (InterruptedException ignored)
       {
       }
     }

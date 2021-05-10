@@ -28,7 +28,7 @@ class ViewingCone extends Triangle
   public ViewingCone(GGVector standPoint, GGVector b, GGVector c)
   {
     super(standPoint, b, c);
-    this.obstacles = new LinkedList<IObstacle>();
+    this.obstacles = new LinkedList<>();
     this.viewBoarderLines = new LineSegment[2];
     this.viewBoarderLines[0] = new LineSegment(standPoint, vertices[1].sub(standPoint));
     this.viewBoarderLines[1] = new LineSegment(standPoint, vertices[2].sub(standPoint));
@@ -53,8 +53,6 @@ class ViewingCone extends Triangle
    * </br>
    * Be aware that there may be problems with double precision when using this 
    * constructor. 
-   * @param standPoint
-   * @param lookAtPoint
    * @param angle in radian
    * @param infinite Set to true if the farthest visible point lies in infinity
    */
@@ -64,7 +62,7 @@ class ViewingCone extends Triangle
       makeCorner(standPoint, lookAtPoint, angle / 2),
       makeCorner(standPoint, lookAtPoint, -angle / 2));
     this.baseCenter = lookAtPoint;
-    this.apexAngle = angle;
+    apexAngle = angle;
     this.apex = standPoint;
     this.infinite = infinite;
     for (LineSegment ls : viewBoarderLines)
@@ -92,8 +90,7 @@ class ViewingCone extends Triangle
 
   /**
    * Returns closest point of any obstacles added to this Viewing cone. 
-   * Returns null if there is no obstacle visible. 
-   * @return
+   * Returns null if there is no obstacle visible.
    */
   public GGVector getClosestObstacle()
   {
@@ -116,7 +113,6 @@ class ViewingCone extends Triangle
   /**
    * Returns the distance to the closest obstacle or 0
    *  (Double.NaN??) if there is no obstacle in the viewing cone.
-   * @return
    */
   public double getDistanceToClosestObstacle()
   {
@@ -144,10 +140,10 @@ class ViewingCone extends Triangle
   @Override
   public String toString()
   {
-    String result = "ViewingCone around:";
+    StringBuilder result = new StringBuilder("ViewingCone around:");
     for (GGVector v : vertices)
-      result += " " + v;
-    return result;
+      result.append(" ").append(v);
+    return result.toString();
   }
 
   public GGVector getStandPoint()
@@ -221,13 +217,10 @@ class ViewingCone extends Triangle
   {
     Color oldPaintColor = bg.getPaintColor();
     bg.setXORMode(color);
-    if (oldApex == null)
-      paintCone(bg, apex, baseCenter);
-    else
-    {
+    if (oldApex != null) {
       paintCone(bg, oldApex, oldBaseCenter);   // Erase old
-      paintCone(bg, apex, baseCenter);
     }
+    paintCone(bg, apex, baseCenter);
     oldApex = apex;
     oldBaseCenter = baseCenter;
     bg.setPaintMode();

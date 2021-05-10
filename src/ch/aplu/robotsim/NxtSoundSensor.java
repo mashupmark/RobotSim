@@ -93,9 +93,8 @@ public class NxtSoundSensor extends Part implements SoundSampleListener
    */
   public int setTriggerLevel(int triggerLevel)
   {
-    int oldLevel = triggerLevel;
     this.triggerLevel = triggerLevel;
-    return oldLevel;
+    return triggerLevel;
   }
 
   public void sampleReceived(int count)
@@ -107,13 +106,7 @@ public class NxtSoundSensor extends Part implements SoundSampleListener
     {
       if (soundListener != null)
       {
-        new Thread()
-        {
-          public void run()
-          {
-            soundListener.loud(port, ampl);
-          }
-        }.start();
+        new Thread(() -> soundListener.loud(port, ampl)).start();
       }
       isQuiet = false;
     }
@@ -121,13 +114,7 @@ public class NxtSoundSensor extends Part implements SoundSampleListener
     {
       if (soundListener != null)
       {
-        new Thread()
-        {
-          public void run()
-          {
-            soundListener.quiet(port, ampl);
-          }
-        }.start();
+        new Thread(() -> soundListener.quiet(port, ampl)).start();
       }
       isQuiet = true;
     }
@@ -137,10 +124,9 @@ public class NxtSoundSensor extends Part implements SoundSampleListener
   int getAmplitude(byte[] samples)
   {
     byte max = 0;
-    for (int i = 0; i < samples.length; i++)
-    {
-      if (samples[i] > max)
-        max = samples[i];
+    for (byte sample : samples) {
+      if (sample > max)
+        max = sample;
     }
     return max;
   }

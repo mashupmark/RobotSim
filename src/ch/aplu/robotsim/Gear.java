@@ -15,7 +15,7 @@
 package ch.aplu.robotsim;
 
 import ch.aplu.jgamegrid.*;
-import ch.aplu.util.*;
+
 import javax.swing.JOptionPane;
 
 /**

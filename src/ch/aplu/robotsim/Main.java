@@ -40,7 +40,7 @@ import javax.swing.event.*;
 public class Main
 {
   private String packageName;
-  private final ArrayList<String> classNames = new ArrayList<String>();
+  private final ArrayList<String> classNames = new ArrayList<>();
   private boolean isReady = true;
   private String selectedItem;
 
@@ -76,7 +76,7 @@ public class Main
   {
     try
     {
-      Class clazz = Class.forName(className);
+      Class<?> clazz = Class.forName(className);
       Constructor constructor = clazz.getDeclaredConstructor();
       Method[] methods = clazz.getMethods();
       constructor.setAccessible(true);
@@ -87,38 +87,30 @@ public class Main
       Method method = null;
       try
       {
-        method = clazz.getDeclaredMethod("run", new Class[]
-        {
-        });
+        method = clazz.getDeclaredMethod("run");
         method.setAccessible(true);
       }
-      catch (NoSuchMethodException ex)
+      catch (NoSuchMethodException ignored)
       {
       }
       //   System.out.println("method = " + method);
       if (method != null)
-        method.invoke(obj, new Object[]
-        {
-        });
+        method.invoke(obj);
 
 
       // Call main() (if exists)
       method = null;
       try
       {
-        method = clazz.getDeclaredMethod("main", new Class[]
-        {
-        });
+        method = clazz.getDeclaredMethod("main");
         method.setAccessible(true);
       }
-      catch (NoSuchMethodException ex)
+      catch (NoSuchMethodException ignored)
       {
       }
       //     System.out.println("method = " + method);
       if (method != null)
-        method.invoke(obj, new Object[]
-        {
-        });
+        method.invoke(obj);
     }
     catch (Exception ex)
     {
@@ -142,8 +134,7 @@ public class Main
         return null;
       Properties props = new Properties();
       props.load(is);
-      String value = props.getProperty("MainClass");
-      return value; // null if not found
+      return props.getProperty("MainClass"); // null if not found
     }
     catch (IOException ex)
     {
@@ -219,7 +210,7 @@ public class Main
   private String getAppFromAnnotation()
   {
     getAllResources();
-    ArrayList<String> list = new ArrayList<String>();
+    ArrayList<String> list = new ArrayList<>();
     for (String className : classNames)
     {
       try
@@ -253,53 +244,43 @@ public class Main
   private String selectOneItem(final ArrayList<String> items)
   {
     final JFrame frame = new JFrame();
-    EventQueue.invokeLater(new Runnable()
-    {
-      public void run()
+    EventQueue.invokeLater(() -> {
+      frame.setTitle("Select Main Class");
+      frame.setSize(400, 300);
+      frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+      JPanel contentPane = (JPanel)frame.getContentPane();
+
+      final String[] itemArray = new String[items.size()];
+      for (int i = 0; i < itemArray.length; i++)
+        itemArray[i] = items.get(i);
+
+      JList list = new JList(itemArray);
+      list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+      list.addListSelectionListener(new ListSelectionListener()
       {
-        frame.setTitle("Select Main Class");
-        frame.setSize(400, 300);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        JPanel contentPane = (JPanel)frame.getContentPane();
-
-        final String[] itemArray = new String[items.size()];
-        for (int i = 0; i < itemArray.length; i++)
-          itemArray[i] = items.get(i);
-
-        JList list = new JList(itemArray);
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.addListSelectionListener(new ListSelectionListener()
+        public void valueChanged(ListSelectionEvent evt)
         {
-          public void valueChanged(ListSelectionEvent evt)
+          if (isReady)
           {
-            if (isReady)
-            {
-              selectedItem = itemArray[evt.getFirstIndex()];
-              isReady = false;
-            }
-            else
-            {
-              isReady = true;
-              wakeUp();
-            }
+            selectedItem = itemArray[evt.getFirstIndex()];
+            isReady = false;
           }
-        });
-        JScrollPane scrollPane = new JScrollPane(list);
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-        contentPane.add(scrollPane, BorderLayout.CENTER);
-        frame.setVisible(true);
-      }
+          else
+          {
+            isReady = true;
+            wakeUp();
+          }
+        }
+      });
+      JScrollPane scrollPane = new JScrollPane(list);
+      scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+      scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+      contentPane.add(scrollPane, BorderLayout.CENTER);
+      frame.setVisible(true);
     });
 
     putSleep();
-    EventQueue.invokeLater(new Runnable()
-    {
-      public void run()
-      {
-        frame.dispose();
-      }
-    });
+    EventQueue.invokeLater(() -> frame.dispose());
 
     return selectedItem;
   }
@@ -310,12 +291,7 @@ public class Main
     {
       return Class.forName(className);
     }
-    catch (NoClassDefFoundError ex)
-    {
-      return Class.forName(className, false,
-        Thread.currentThread().getContextClassLoader());
-    }
-    catch (ExceptionInInitializerError ex)
+    catch (NoClassDefFoundError | ExceptionInInitializerError ex)
     {
       return Class.forName(className, false,
         Thread.currentThread().getContextClassLoader());
@@ -330,7 +306,7 @@ public class Main
       {
         wait();
       }
-      catch (InterruptedException ex)
+      catch (InterruptedException ignored)
       {
       }
     }

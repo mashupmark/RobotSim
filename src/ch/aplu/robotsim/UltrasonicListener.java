@@ -26,13 +26,13 @@ public interface UltrasonicListener extends java.util.EventListener
     * @param port the port where the sensor is plugged in
     * @param value the current distance
     */
-   public void far(SensorPort port, int value);
+   void far(SensorPort port, int value);
 
    /**
     * Called when the distance falls below the trigger level.
     * @param port the port where the sensor is plugged in
     * @param value the current distance
     */
-   public void near(SensorPort port, int value);
+   void near(SensorPort port, int value);
    
 }

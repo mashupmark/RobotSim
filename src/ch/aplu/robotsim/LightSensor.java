@@ -38,7 +38,7 @@ public class LightSensor extends Part
   private volatile boolean isBrightNotified = false;
   private volatile boolean isDarkNotified = false;
   private LightListener lightListener = null;
-  private SensorPort port;
+  private final SensorPort port;
   private int triggerLevel;
   private boolean upwards = false;
 

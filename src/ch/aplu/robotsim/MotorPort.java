@@ -32,7 +32,7 @@ public class MotorPort
    * A motor port for a motor connected to port C.
    */
   public static MotorPort C = new MotorPort(3);
-  private int portNb;
+  private final int portNb;
 
   private MotorPort(int portNb)
   {

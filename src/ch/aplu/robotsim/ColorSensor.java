@@ -64,7 +64,7 @@ public class ColorSensor extends Part
   private static final Location pos2 = new Location(8, -7);
   private static final Location pos3 = new Location(8, 0);
   private static final Location pos4 = new Location(-35, 0);
-  private SensorPort port;
+  private final SensorPort port;
 
   /**
    * Creates a sensor instance connected to the given port.
@@ -193,11 +193,9 @@ public class ColorSensor extends Part
    */
   public static boolean inColorCube(Color color, int[] colorCube)
   {
-    if (color.getRed() >= colorCube[0] && color.getRed() <= colorCube[1]
-      && color.getGreen() >= colorCube[2] && color.getGreen() <= colorCube[3]
-      && color.getBlue() >= colorCube[4] && color.getBlue() <= colorCube[5])
-      return true;
-    return false;
+    return color.getRed() >= colorCube[0] && color.getRed() <= colorCube[1]
+            && color.getGreen() >= colorCube[2] && color.getGreen() <= colorCube[3]
+            && color.getBlue() >= colorCube[4] && color.getBlue() <= colorCube[5];
   }
 
   /**

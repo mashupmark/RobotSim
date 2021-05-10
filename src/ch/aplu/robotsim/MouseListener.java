@@ -27,7 +27,7 @@ public interface MouseListener extends java.util.EventListener
    * @param x the x-coordinate of the mouse cursor
    * @param y the y-coordinate of the mouse cursor
    */
-  public void mousePressed(GameGrid gg, int x, int y);
+  void mousePressed(GameGrid gg, int x, int y);
 
   /**
    * Called when the left mouse button is released.
@@ -35,7 +35,7 @@ public interface MouseListener extends java.util.EventListener
    * @param x the x-coordinate of the mouse cursor
    * @param y the y-coordinate of the mouse cursor
    */
-  public void mouseReleased(GameGrid gg, int x, int y);
+  void mouseReleased(GameGrid gg, int x, int y);
 
   /**
    * Called when the left mouse is dragged .
@@ -43,5 +43,5 @@ public interface MouseListener extends java.util.EventListener
    * @param x the x-coordinate of the mouse cursor
    * @param y the y-coordinate of the mouse cursor
    */
-  public void mouseDragged(GameGrid gg, int x, int y);
+  void mouseDragged(GameGrid gg, int x, int y);
 }

@@ -41,7 +41,7 @@ public class UltrasonicSensor extends Part
     Math.toRadians(SharedConstants.ultrasonicBeamWidth);
   private static final Location pos = new Location(-18, -1);
   private UltrasonicListener ultrasonicListener = null;
-  private SensorPort port;
+  private final SensorPort port;
   private int triggerLevel;
   private volatile boolean isFarNotified = false;
   private volatile boolean isNearNotified = false;

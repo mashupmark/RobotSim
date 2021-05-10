@@ -26,7 +26,8 @@ public class Gear extends Part
   protected enum GearState
   {
     FORWARD, BACKWARD, LEFT, RIGHT, STOPPED
-  };
+  }
+
   private static final Location pos = new Location(0, 0);
   private final int DEFAULT_SPEED = 50;
   private GearState state = GearState.STOPPED;

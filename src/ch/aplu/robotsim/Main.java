@@ -40,7 +40,7 @@ import javax.swing.event.*;
 public class Main
 {
   private String packageName;
-  private ArrayList<String> classNames = new ArrayList<String>();
+  private final ArrayList<String> classNames = new ArrayList<String>();
   private boolean isReady = true;
   private String selectedItem;
 

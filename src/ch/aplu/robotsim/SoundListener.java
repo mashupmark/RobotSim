@@ -25,12 +25,12 @@ public interface SoundListener extends java.util.EventListener
    * @param port the port where the sensor is plugged in
    * @param level the current sound level
    */
-   public void loud(SensorPort port, int level);
+  void loud(SensorPort port, int level);
 
   /**
    * Called when the sound becomes lower than the trigger level.
    * @param port the port where the sensor is plugged in
    * @param level the current sound level
    */
-   public void quiet(SensorPort port, int level);
+  void quiet(SensorPort port, int level);
 }

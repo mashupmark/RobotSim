@@ -36,7 +36,7 @@ public class SensorPort
    * A sensor port for a sensor connected to port S4.
    */
   public static SensorPort S4 = new SensorPort(4);
-  private int portNb;
+  private final int portNb;
 
   private SensorPort(int portNb)
   {

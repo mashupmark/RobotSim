@@ -10,7 +10,7 @@ import ch.aplu.jgamegrid.GGVector;
 
 interface IObstacle {
 
-	public GGVector closestPointTo(GGVector p);
+	GGVector closestPointTo(GGVector p);
 	
 	/**
 	 * returns true if the given point lies inside (or on the
@@ -18,9 +18,9 @@ interface IObstacle {
 	 * @param p
 	 * @return
 	 */
-	public boolean liesInside(GGVector p);
+    boolean liesInside(GGVector p);
 
-	public List<GGVector> getIntersectionPointsWith(
-			LineSegment[] viewBoarderLines);
+	List<GGVector> getIntersectionPointsWith(
+            LineSegment[] viewBoarderLines);
 
 }

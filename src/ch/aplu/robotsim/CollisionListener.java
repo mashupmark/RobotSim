@@ -24,6 +24,6 @@ public interface CollisionListener extends java.util.EventListener
    * Called in a new thread when the circumcircle of the robot overlaps
    * with an obstacle. Any further events are inhibited until collide() returns.
   */
-  public void collide();
+  void collide();
 
 }

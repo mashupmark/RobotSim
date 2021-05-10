@@ -24,7 +24,7 @@ import java.awt.image.BufferedImage;
  */
 public class Target extends Actor
 {
-  private Point[] mesh;
+  private final Point[] mesh;
   private String imageName = null;
   private BufferedImage bi = null;
   

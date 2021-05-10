@@ -20,25 +20,25 @@ public interface BrickButton
   /**
    * Constant for the UP button.
    */
-  public static final int ID_UP = 0x01;
+  int ID_UP = 0x01;
   /**
    * Constant for the DOWN button.
    */
-  public static final int ID_DOWN = 0x04;
+  int ID_DOWN = 0x04;
   /**
    * Constant for the LEFT button.
    */
-  public static final int ID_LEFT = 0x10;
+  int ID_LEFT = 0x10;
   /**
    * Constant for the RIGHT button.
    */
-  public static final int ID_RIGHT = 0x08;
+  int ID_RIGHT = 0x08;
   /**
    * Constant for the ENTER button.
    */
-  public static final int ID_ENTER = 0x02;
+  int ID_ENTER = 0x02;
   /**
    * Constant for the ESCAPE button.
    */
-  public static final int ID_ESCAPE = 0x20;
+  int ID_ESCAPE = 0x20;
 }

@@ -30,6 +30,6 @@ public interface ButtonListener extends java.util.EventListener
    * RIGHT button->cursor right key<br>
    * @param buttonID the ID of the button as defined in BrickButton interface
    */
-  public void buttonHit(int buttonID);
+  void buttonHit(int buttonID);
 
 }

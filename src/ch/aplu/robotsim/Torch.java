@@ -23,8 +23,8 @@ import ch.aplu.jgamegrid.*;
  */
 public class Torch extends Actor
 {
-  private double power;
-  private Location loc;
+  private final double power;
+  private final Location loc;
   private int height;
   
   /**

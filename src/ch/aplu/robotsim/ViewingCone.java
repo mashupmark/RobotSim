@@ -12,8 +12,8 @@ import java.awt.Point;
 
 class ViewingCone extends Triangle
 {
-  private LinkedList<IObstacle> obstacles;
-  private LineSegment[] viewBoarderLines;
+  private final LinkedList<IObstacle> obstacles;
+  private final LineSegment[] viewBoarderLines;
   private GGVector baseCenter;
   private boolean infinite;
   private GGVector apex;

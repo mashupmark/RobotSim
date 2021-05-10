@@ -26,9 +26,9 @@ import java.awt.image.BufferedImage;
  */
 public class Shadow extends Actor
 {
-  private Location center;
-  private Location upperLeft;
-  private Location lowerRight;
+  private final Location center;
+  private final Location upperLeft;
+  private final Location lowerRight;
 
   /**
    * Creates a rectangular shadow area.

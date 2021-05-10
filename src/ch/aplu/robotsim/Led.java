@@ -25,7 +25,7 @@ public class Led extends Part
 
   private class Flasher extends Thread
   {
-    private Actor actor;
+    private final Actor actor;
 
     public Flasher(Actor actor)
     {

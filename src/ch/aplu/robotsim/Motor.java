@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 enum MotorState
 {
   FORWARD, BACKWARD, STOPPED, ROTATE
-};
+}
 
 /**
  * Class that represents one of the EV3 motors.
@@ -30,12 +30,12 @@ public class Motor extends Part
   private static final Location pos = new Location(0, 0);
   private MotorState state = MotorState.STOPPED;
   private int speed = SharedConstants.defaultSpeed;
-  private MotorPort port;
+  private final MotorPort port;
   private boolean isMoving = false;
   protected boolean isForward;
   private int rotateParam;
   private int motorCount = 0;
-  private int counterIncrement = 0;
+  private final int counterIncrement = 0;
 
   /**
    * Creates a motor instance that is plugged into given port.

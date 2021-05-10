@@ -25,12 +25,12 @@ public interface LightListener extends java.util.EventListener
    * @param port the port where the sensor is plugged in
    * @param value the current light level
    */
-   public void bright(SensorPort port, int value);
+  void bright(SensorPort port, int value);
 
    /**
    * Called when the light becomes darker than the trigger level.
    * @param port the port where the sensor is plugged in
    * @param value the current light level
    */
-   public void dark(SensorPort port, int value);
+   void dark(SensorPort port, int value);
 }

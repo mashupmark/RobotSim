@@ -21,7 +21,7 @@ import ch.aplu.jgamegrid.*;
  */
 public class TurtleRobot extends LegoRobot
 {
-  private Gear gear = new Gear();
+  private final Gear gear = new Gear();
   private final int turtleSpeed = 50;
 
   /**

@@ -17,7 +17,7 @@ class Rectangle implements IObstacle
    * careful, this array does not provide any functionality. It is just for easier
    * retrieving all 4 vertices through getVertices.
    */
-  GGVector vertices[];
+  GGVector[] vertices;
 
   /**
    * Could also be more generalized

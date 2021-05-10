@@ -910,8 +910,8 @@ public class LegoRobot {
     private static GameGrid gg;
     private static Robot robot;
     private int nbObstacles = 0;
-    private String title = "RobotSim V" + SharedConstants.VERSION + " [www.aplu.ch]";
-    private ArrayList<Part> parts = new ArrayList<Part>();
+    private final String title = "RobotSim V" + SharedConstants.VERSION + " [www.aplu.ch]";
+    private final ArrayList<Part> parts = new ArrayList<Part>();
     private double rotInc;
     private int currentSpeed;
     private MotorState oldMotorStateA = MotorState.STOPPED;
@@ -933,7 +933,7 @@ public class LegoRobot {
     private int buttonID;
     private ButtonListener buttonListener = null;
     private Torch tActive = null;
-    private Led led;
+    private final Led led;
     private Actor leftWheel;
     private Actor rightWheel;
     private double leftMotDirection = 0;
@@ -942,7 +942,7 @@ public class LegoRobot {
     private double rightMotIncrement = 0;
     private TextActor leftCount = null;
     private TextActor rightCount = null;
-    private Font countFont = new Font("Courier", Font.PLAIN, 16);
+    private final Font countFont = new Font("Courier", Font.PLAIN, 16);
 
     /**
      * Creates a robot with its playground using defaults from RobotContext.

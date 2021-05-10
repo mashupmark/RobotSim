@@ -12,7 +12,7 @@ import ch.aplu.jgamegrid.GGVector;
 class Circle implements IObstacle {
 
 	private GGVector center;
-	private double radius;
+	private final double radius;
 
 	public Circle(GGVector centre, double radius) {
 		this.center = centre;

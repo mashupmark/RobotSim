@@ -32,11 +32,11 @@ public class SoundSensor extends Part implements SoundSampleListener
   private static final Location pos2 = new Location(2, -7);
   private static final Location pos3 = new Location(2, 0);
   private SoundListener soundListener = null;
-  private SensorPort port;
-  private AudioFormat audioFormat =
+  private final SensorPort port;
+  private final AudioFormat audioFormat =
     new AudioFormat(22050.0F, 8, 1, true, false);
-  private SoundRecorder recorder = new SoundRecorder(audioFormat);
-  private ByteArrayOutputStream data = new ByteArrayOutputStream();
+  private final SoundRecorder recorder = new SoundRecorder(audioFormat);
+  private final ByteArrayOutputStream data = new ByteArrayOutputStream();
   private boolean isQuiet = true;
   private int triggerLevel;
   private int ampl;

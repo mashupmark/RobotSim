@@ -17,7 +17,6 @@ package ch.aplu.robotsim;
 import ch.aplu.jgamegrid.*;
 import ch.aplu.util.Monitor;
 import ch.aplu.util.SoundPlayer;
-import ch.aplu.util.SoundPlayerListener;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -139,32 +138,30 @@ public class LegoRobot {
             int nbTorches = RobotContext.torches.size();
             if (nbTorches > 0) {
                 gg.addMouseListener(
-                        new GGMouseListener() {
-                            public boolean mouseEvent(GGMouse mouse) {
-                                if (mouse.getEvent() == GGMouse.lPress) {
-                                    Location loc = gg.toLocationInGrid(mouse.getX(), mouse.getY());
-                                    // Search for closest
-                                    int dclosest = 1000;
-                                    Torch closest = null;
-                                    for (Torch t : RobotContext.torches) {
-                                        int d = loc.getDistanceTo(t.getLocation());
-                                        if (d < dclosest) {
-                                            dclosest = d;
-                                            closest = t;
-                                        }
+                        mouse -> {
+                            if (mouse.getEvent() == GGMouse.lPress) {
+                                Location loc = gg.toLocationInGrid(mouse.getX(), mouse.getY());
+                                // Search for closest
+                                int dclosest = 1000;
+                                Torch closest = null;
+                                for (Torch t : RobotContext.torches) {
+                                    int d = loc.getDistanceTo(t.getLocation());
+                                    if (d < dclosest) {
+                                        dclosest = d;
+                                        closest = t;
                                     }
-                                    if (dclosest < 20)
-                                        tActive = closest;
                                 }
-                                if (mouse.getEvent() == GGMouse.lDrag && tActive != null) {
-                                    tActive.setPixelLocation(mouse.getX(), mouse.getY());
-                                }
-                                if (mouse.getEvent() == GGMouse.lRelease && tActive != null) {
-                                    tActive.setPixelLocation(mouse.getX(), mouse.getY());
-                                    tActive = null;
-                                }
-                                return true;
+                                if (dclosest < 20)
+                                    tActive = closest;
                             }
+                            if (mouse.getEvent() == GGMouse.lDrag && tActive != null) {
+                                tActive.setPixelLocation(mouse.getX(), mouse.getY());
+                            }
+                            if (mouse.getEvent() == GGMouse.lRelease && tActive != null) {
+                                tActive.setPixelLocation(mouse.getX(), mouse.getY());
+                                tActive = null;
+                            }
+                            return true;
                         },
                         GGMouse.lPress | GGMouse.lDrag | GGMouse.lRelease);
             }
@@ -194,9 +191,9 @@ public class LegoRobot {
             Class appClass = null;
             try {
                 appClass = Class.forName(new Throwable().getStackTrace()[3].getClassName());
-                if (appClass.toString().indexOf("TurtleRobot") != -1)
+                if (appClass.toString().contains("TurtleRobot"))
                     appClass = Class.forName(new Throwable().getStackTrace()[4].getClassName());
-            } catch (Exception ex) {
+            } catch (Exception ignored) {
             }
             if (appClass != null)
                 exec(appClass, gg, "_init");
@@ -207,12 +204,10 @@ public class LegoRobot {
             gg.setTitle("Robot-Obstacle Collision");
             isCollisionInfo = true;
             if (collisionListener != null && isCollisionTriggerEnabled) {
-                new Thread(new Runnable() {
-                    public void run() {
-                        isCollisionTriggerEnabled = false;
-                        collisionListener.collide();
-                        isCollisionTriggerEnabled = true;
-                    }
+                new Thread(() -> {
+                    isCollisionTriggerEnabled = false;
+                    collisionListener.collide();
+                    isCollisionTriggerEnabled = true;
                 }).start();
             }
             return 0;
@@ -247,10 +242,10 @@ public class LegoRobot {
         private void exec(Class appClass, GameGrid gg, String methodName) {
             Method execMethod = null;
 
-            Method methods[] = appClass.getDeclaredMethods();
-            for (int i = 0; i < methods.length; ++i) {
-                if (methodName.equals(methods[i].getName())) {
-                    execMethod = methods[i];
+            Method[] methods = appClass.getDeclaredMethods();
+            for (Method method : methods) {
+                if (methodName.equals(method.getName())) {
+                    execMethod = method;
                     break;
                 }
             }
@@ -268,7 +263,7 @@ public class LegoRobot {
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
                 ex.getTargetException().printStackTrace(pw);
-                JOptionPane.showMessageDialog(null, sw.toString()
+                JOptionPane.showMessageDialog(null, sw
                                 + "\n\nApplication will terminate.", "Fatal Error",
                         JOptionPane.ERROR_MESSAGE);
                 if (GameGrid.getClosingMode() == GameGrid.ClosingMode.TerminateOnClose
@@ -633,12 +628,12 @@ public class LegoRobot {
                 oldGearState = state;
                 oldRadius = radius;
                 if (radius != 0) {
-                    if (state == state.LEFT) {
+                    if (state == Gear.GearState.LEFT) {
                         initRot(-Math.abs(radius));
                         // dphi = ds / r = v * dt / r, dt = simulation_period (constant)
                         dphi = -SharedConstants.gearRotIncFactor * speed / radius;
                     }
-                    if (state == state.RIGHT) {
+                    if (state == Gear.GearState.RIGHT) {
                         initRot(Math.abs(radius));
                         dphi = SharedConstants.gearRotIncFactor * speed / radius;
                     }
@@ -736,7 +731,7 @@ public class LegoRobot {
     // ---------------------- End of class Robot ---------------------
 
     // ---------------------- Class Interceptor --------------------
-    private class Interceptor extends PrintStream {
+    private static class Interceptor extends PrintStream {
         public Interceptor(OutputStream out) {
             super(out, true);
         }
@@ -759,9 +754,8 @@ public class LegoRobot {
          * Print an array of characters.
          */
         public void print(char[] s) {
-            StringBuffer sbuf = new StringBuffer();
-            for (int i = 0; i < s.length; i++)
-                sbuf.append(s[i]);
+            StringBuilder sbuf = new StringBuilder();
+            for (char c : s) sbuf.append(c);
             gg.setStatusText(sbuf.toString());
         }
 
@@ -832,10 +826,9 @@ public class LegoRobot {
          * Print an array of characters and then terminate the line.
          */
         public void println(char[] s) {
-            StringBuffer sbuf = new StringBuffer();
-            for (int i = 0; i < s.length; i++)
-                sbuf.append(s[i]);
-            gg.setStatusText(sbuf.toString() + "\n");
+            StringBuilder sbuf = new StringBuilder();
+            for (char c : s) sbuf.append(c);
+            gg.setStatusText(sbuf + "\n");
         }
 
         /**
@@ -914,8 +907,6 @@ public class LegoRobot {
      * (in pixels, default: 20).
      */
     public static int collisionRadius = 16;
-    //
-    private final int nbRotatableSprites = 360;
     private static GameGrid gg;
     private static Robot robot;
     private int nbObstacles = 0;
@@ -957,6 +948,8 @@ public class LegoRobot {
      * Creates a robot with its playground using defaults from RobotContext.
      */
     public LegoRobot() {
+        //
+        int nbRotatableSprites = 360;
         gg = new GameGrid(500, 500, 1, null,
                 RobotContext.imageName, RobotContext.isNavigationBar, nbRotatableSprites);
         if (RobotContext.isError) {
@@ -1047,7 +1040,7 @@ public class LegoRobot {
      * @return true, if the window not disposed; otherwise false
      */
     public boolean isConnected() {
-        return !gg.isDisposed();
+        return !GameGrid.isDisposed();
     }
 
     /**
@@ -1215,7 +1208,7 @@ public class LegoRobot {
      */
     public boolean isButtonHit() {
         Tools.delay(10);
-        if (gg.isDisposed())
+        if (GameGrid.isDisposed())
             return true;
         int id = buttonID;
         return (id != 0);
@@ -1229,7 +1222,7 @@ public class LegoRobot {
      * is not running or the simulation window is closed, return 0
      */
     public int getHitButtonID() {
-        if (gg.isDisposed())
+        if (GameGrid.isDisposed())
             return 0;
         int id = buttonID;
         buttonID = 0;
@@ -1245,7 +1238,7 @@ public class LegoRobot {
      */
     public boolean isUpHit() {
         Tools.delay(10);
-        if (gg.isDisposed())
+        if (GameGrid.isDisposed())
             return true;
         boolean pressed = (buttonID == BrickButton.ID_UP);
         if (pressed)
@@ -1262,7 +1255,7 @@ public class LegoRobot {
      */
     public boolean isDownHit() {
         Tools.delay(10);
-        if (gg.isDisposed())
+        if (GameGrid.isDisposed())
             return true;
         boolean pressed = (buttonID == BrickButton.ID_DOWN);
         if (pressed)
@@ -1279,7 +1272,7 @@ public class LegoRobot {
      */
     public boolean isLeftHit() {
         Tools.delay(10);
-        if (gg.isDisposed())
+        if (GameGrid.isDisposed())
             return true;
         boolean pressed = (buttonID == BrickButton.ID_LEFT);
         if (pressed)
@@ -1296,7 +1289,7 @@ public class LegoRobot {
      */
     public boolean isRightHit() {
         Tools.delay(10);
-        if (gg.isDisposed())
+        if (GameGrid.isDisposed())
             return true;
         boolean pressed = (buttonID == BrickButton.ID_RIGHT);
         if (pressed)
@@ -1313,7 +1306,7 @@ public class LegoRobot {
      */
     public boolean isEnterHit() {
         Tools.delay(10);
-        if (gg.isDisposed())
+        if (GameGrid.isDisposed())
             return true;
         boolean pressed = (buttonID == BrickButton.ID_ENTER);
         if (pressed)
@@ -1330,7 +1323,7 @@ public class LegoRobot {
      */
     public boolean isEscapeHit() {
         Tools.delay(10);
-        if (gg.isDisposed())
+        if (GameGrid.isDisposed())
             return true;
         boolean pressed = (buttonID == BrickButton.ID_ESCAPE);
         if (pressed)
@@ -1469,7 +1462,7 @@ public class LegoRobot {
         }
         try {
             data.close();
-        } catch (IOException ex) {
+        } catch (IOException ignored) {
         }
 
         InputStream is
@@ -1481,27 +1474,25 @@ public class LegoRobot {
             SoundPlayer player = new SoundPlayer(audioInputStream);
             if (blocking) {
                 player.addSoundPlayerListener(
-                        new SoundPlayerListener() {
-                            public void notifySoundPlayerStateChange(int reason, int mixerIndex) {
-                                switch (reason) {
-                                    case 0:
+                        (reason, mixerIndex) -> {
+                            switch (reason) {
+                                case 0:
 //                System.out.println("Notify: start playing");
-                                        break;
-                                    case 1:
+                                    break;
+                                case 1:
 //                System.out.println("Notify: resume playing");
-                                        break;
-                                    case 2:
+                                    break;
+                                case 2:
 //                System.out.println("Notify: pause playing");
-                                        break;
-                                    case 3:
+                                    break;
+                                case 3:
 //                System.out.println("Notify: stop playing");
-                                        break;
-                                    case 4:
+                                    break;
+                                case 4:
 //                System.out.println("Notify: end of resource");
-                                        Tools.delay(400);
-                                        Monitor.wakeUp();
-                                        break;
-                                }
+                                    Tools.delay(400);
+                                    Monitor.wakeUp();
+                                    break;
                             }
                         }
                 );

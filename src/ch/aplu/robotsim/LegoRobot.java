@@ -24,7 +24,6 @@ import java.util.*;
 import javax.swing.JOptionPane;
 import java.lang.reflect.*;
 import java.io.*;
-import java.util.concurrent.Callable;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 
@@ -344,18 +343,10 @@ public class LegoRobot
       }
 
       // ------------------ We notify light listeners -------------
-      for (Part part : parts)
-      {
-        if (part instanceof LightSensor)
-          ((LightSensor)part).notifyEvent();
-      }
+      parts.stream().filter(part -> part instanceof LightSensor).parallel().forEach(part -> ((LightSensor)part).notifyEvent());
 
       // ------------------ We notify ultrasonic listeners -------------
-      for (Part part : parts)
-      {
-        if (part instanceof UltrasonicSensor)
-          ((UltrasonicSensor)part).notifyEvent();
-      }
+      parts.stream().filter(part -> part instanceof UltrasonicSensor).parallel().forEach(part -> ((UltrasonicSensor)part).notifyEvent());
 
       Gear gear = (Gear)(gg.getOneActor(Gear.class));
       ArrayList<Actor> motors = gg.getActors(Motor.class);
@@ -369,314 +360,318 @@ public class LegoRobot
       }
 
       // ------------------ We have two motors --------------
-      if (!motors.isEmpty() && motors.size() == 2)
+      if (motors.size() == 2)
       {
-        double radius;
-        Motor mot1 = (Motor)motors.get(0);
-        Motor mot2 = (Motor)motors.get(1);
-        Motor motorA;
-        Motor motorB;
-        if (mot1.getPort() == MotorPort.A)
-        {
-          motorA = mot1;
-          motorB = mot2;
-        }
-        else
-        {
-          motorA = mot2;
-          motorB = mot1;
-        }
-
-        int speedA = motorA.getSpeed();
-        int speedB = motorB.getSpeed();
-        if (speedA == 0 && speedB == 0)
-          return;
-        leftMotIncrement = speedA / 10.0;
-        rightMotIncrement = speedB / 10.0;
-        MotorState stateA = motorA.getState();
-        MotorState stateB = motorB.getState();
-        initWheelActors();
-
-        if (stateA == MotorState.ROTATE)
-        {
-          motorA.setIncrement((int)leftMotIncrement);
-          leftWheel.setDirection(leftMotDirection);
-          if (motorA.isForward)
-            leftMotDirection += leftMotIncrement;
-          else
-            leftMotDirection -= leftMotIncrement;
-          showCount(motorA.getMotorCount(), motorB.getMotorCount());
-        }
-
-        if (stateB == MotorState.ROTATE)
-        {
-          motorB.setIncrement((int)rightMotIncrement);
-          rightWheel.setDirection(rightMotDirection);
-          if (motorB.isForward)
-            rightMotDirection += rightMotIncrement;
-          else
-            rightMotDirection -= rightMotIncrement;
-          showCount(motorA.getMotorCount(), motorB.getMotorCount());
-        }
-
-        if (stateA != oldMotorStateA || stateB != oldMotorStateB || speedA != oldSpeedA || speedB != oldSpeedB)  // State change
-        {
-          oldMotorStateA = stateA;
-          oldMotorStateB = stateB;
-          oldSpeedA = speedA;
-          oldSpeedB = speedB;
-          isRotationInit = true;
-        }
-
-        if (stateA == MotorState.FORWARD && stateB == MotorState.FORWARD)
-        {
-          if (speedA == speedB)
-            advance(SharedConstants.nbSteps * speedA);
-          else
-          {
-            if (isRotationInit)
-            {
-              isRotationInit = false;
-              sign = (speedA > speedB ? -1 : 1);
-              radius = wheelDistance / 2.0 * (speedA + speedB) / Math.abs(speedB - speedA);
-              initRot(sign * radius);
-              rotInc = SharedConstants.motorRotIncFactor * (speedA + speedB) / radius;
-            }
-            double rot = sign * rotInc;
-            pos = getRotatedPosition(pos, rotCenter, rot);
-            setLocation(new Location((int)(pos.x), (int)(pos.y)));
-            dir += rot;
-            setDirection(dir);
-          }
-          leftWheel.setDirection(leftMotDirection);
-          rightWheel.setDirection(rightMotDirection);
-          leftMotDirection += leftMotIncrement;
-          rightMotDirection += rightMotIncrement;
-          showCount((int)leftMotDirection, (int)rightMotDirection);
-        }
-
-        if (stateA == MotorState.BACKWARD && stateB == MotorState.BACKWARD)
-        {
-          if (speedA == speedB)
-            advance(-SharedConstants.nbSteps * speedA);
-          else
-          {
-            if (isRotationInit)
-            {
-              isRotationInit = false;
-              sign = (speedA > speedB ? -1 : 1);
-              radius = wheelDistance / 2.0 * (speedA + speedB) / Math.abs(speedA - speedB);
-              initRot(sign * radius);
-              rotInc = SharedConstants.motorRotIncFactor * (speedA + speedB) / radius;
-            }
-            double rot = -sign * rotInc;
-            pos = getRotatedPosition(pos, rotCenter, rot);
-            setLocation(new Location((int)(pos.x), (int)(pos.y)));
-            dir += rot;
-            setDirection(dir);
-          }
-          leftWheel.setDirection(leftMotDirection);
-          rightWheel.setDirection(rightMotDirection);
-          leftMotDirection -= leftMotIncrement;
-          rightMotDirection -= rightMotIncrement;
-          showCount((int)leftMotDirection, (int)rightMotDirection);
-        }
-
-        if (stateA == MotorState.BACKWARD && stateB == MotorState.FORWARD)
-        {
-          if (speedA == speedB)
-            turn(-(int)(speedA * SharedConstants.motTurnAngle));
-          else
-          {
-            if (isRotationInit)
-            {
-              isRotationInit = false;
-              sign = (speedA > speedB ? -1 : 1);
-              radius = wheelDistance / 200.0 * Math.abs(speedA - speedB);
-              initRot(sign * radius);
-              rotInc = SharedConstants.motorRotIncFactor * Math.max(speedA, speedB) / (wheelDistance + radius);
-            }
-            double rot = -rotInc;
-            pos = getRotatedPosition(pos, rotCenter, rot);
-            setLocation(new Location((int)(pos.x), (int)(pos.y)));
-            dir += rot;
-            setDirection(dir);
-          }
-          leftWheel.setDirection(leftMotDirection);
-          rightWheel.setDirection(rightMotDirection);
-          leftMotDirection -= leftMotIncrement;
-          rightMotDirection += rightMotIncrement;
-          showCount((int)leftMotDirection, (int)rightMotDirection);
-        }
-
-        if (stateA == MotorState.FORWARD && stateB == MotorState.BACKWARD)
-        {
-          if (speedA == speedB)
-            turn((int)(speedA * SharedConstants.motTurnAngle));
-          else
-          {
-            if (isRotationInit)
-            {
-              isRotationInit = false;
-              sign = (speedA > speedB ? -1 : 1);
-              radius = wheelDistance / 200.0 * Math.abs(speedA - speedB);
-              initRot(sign * radius);
-              rotInc = SharedConstants.motorRotIncFactor * Math.max(speedA, speedB) / (wheelDistance - Math.abs(radius));
-            }
-            double rot = rotInc;
-            pos = getRotatedPosition(pos, rotCenter, rot);
-            setLocation(new Location((int)(pos.x), (int)(pos.y)));
-            dir += rot;
-            setDirection(dir);
-          }
-          leftWheel.setDirection(leftMotDirection);
-          rightWheel.setDirection(rightMotDirection);
-          leftMotDirection += leftMotIncrement;
-          rightMotDirection -= rightMotIncrement;
-          showCount((int)leftMotDirection, (int)rightMotDirection);
-        }
-
-        if (stateA == MotorState.STOPPED && stateB == MotorState.FORWARD)
-        {
-          if (isRotationInit)
-          {
-            isRotationInit = false;
-            radius = wheelDistance / 2;
-            initRot(-radius);
-            rotInc = SharedConstants.motorRotIncFactor * speedA / radius;
-          }
-          double rot = -rotInc;
-          pos = getRotatedPosition(pos, rotCenter, rot);
-          setLocation(new Location((int)(pos.x), (int)(pos.y)));
-          dir += rot;
-          setDirection(dir);
-          leftWheel.setDirection(leftMotDirection);
-          rightWheel.setDirection(rightMotDirection);
-          rightMotDirection += rightMotIncrement;
-          showCount((int)leftMotDirection, (int)rightMotDirection);
-        }
-
-        if (stateA == MotorState.STOPPED && stateB == MotorState.BACKWARD)
-        {
-          if (isRotationInit)
-          {
-            isRotationInit = false;
-            radius = wheelDistance / 2;
-            initRot(-radius);
-            rotInc = SharedConstants.motorRotIncFactor * speedA / radius;
-          }
-          double rot = rotInc;
-          pos = getRotatedPosition(pos, rotCenter, rot);
-          setLocation(new Location((int)(pos.x), (int)(pos.y)));
-          dir += rot;
-          setDirection(dir);
-          leftWheel.setDirection(leftMotDirection);
-          rightWheel.setDirection(rightMotDirection);
-          rightMotDirection -= rightMotIncrement;
-          showCount((int)leftMotDirection, (int)rightMotDirection);
-        }
-
-        if (stateA == MotorState.FORWARD && stateB == MotorState.STOPPED)
-        {
-          if (isRotationInit)
-          {
-            isRotationInit = false;
-            radius = wheelDistance / 2;
-            initRot(radius);
-            rotInc = SharedConstants.motorRotIncFactor * speedB / radius;
-          }
-          double rot = rotInc;
-          pos = getRotatedPosition(pos, rotCenter, rot);
-          setLocation(new Location((int)(pos.x), (int)(pos.y)));
-          dir += rot;
-          setDirection(dir);
-          leftWheel.setDirection(leftMotDirection);
-          rightWheel.setDirection(rightMotDirection);
-          leftMotDirection += leftMotIncrement;
-          showCount((int)leftMotDirection, (int)rightMotDirection);
-        }
-
-        if (stateA == MotorState.BACKWARD && stateB == MotorState.STOPPED)
-        {
-          if (isRotationInit)
-          {
-            isRotationInit = false;
-            radius = wheelDistance / 2;
-            initRot(radius);
-            rotInc = SharedConstants.motorRotIncFactor * speedB / radius;
-          }
-          double rot = -rotInc;
-          pos = getRotatedPosition(pos, rotCenter, rot);
-          setLocation(new Location((int)(pos.x), (int)(pos.y)));
-          dir += rot;
-          setDirection(dir);
-          leftWheel.setDirection(leftMotDirection);
-          rightWheel.setDirection(rightMotDirection);
-          leftMotDirection -= leftMotIncrement;
-          showCount((int)leftMotDirection, (int)rightMotDirection);
-        }
-
-        if (stateA == MotorState.STOPPED && stateB == MotorState.STOPPED)
-          return;
-
+        updateMotors(motors);
       }
 
-      if (!motors.isEmpty() && motors.size() == 1)  // we have 1 motor
+      if (motors.size() == 1)  // we have 1 motor
       {
-        Motor mot = (Motor)motors.get(0);
-        Motor motorA;
-        Motor motorB;
-        int speedA;
-        int speedB;
-        MotorState stateA;
-        MotorState stateB;
-        if (mot.getPort() == MotorPort.A)
-        {
-          motorA = mot;
-          motorB = null;
-          speedA = motorA.getSpeed();
-          speedB = 0;
-          stateA = motorA.getState();
-          stateB = null;
-          initLeftWheelActor();
-        }
+        updateMotor(motors);
+      }
+    }
+
+    private void updateMotor(ArrayList<Actor> motors) {
+      Motor mot = (Motor) motors.get(0);
+      Motor motorA;
+      Motor motorB;
+      int speedA;
+      int speedB;
+      MotorState stateA;
+      MotorState stateB;
+      if (mot.getPort() == MotorPort.A)
+      {
+        motorA = mot;
+        motorB = null;
+        speedA = motorA.getSpeed();
+        speedB = 0;
+        stateA = motorA.getState();
+        stateB = null;
+        initLeftWheelActor();
+      }
+      else
+      {
+        motorA = null;
+        motorB = mot;
+        speedA = 0;
+        speedB = motorB.getSpeed();
+        stateA = null;
+        stateB = motorB.getState();
+        initRightWheelActor();
+      }
+
+      if (speedA == 0 && speedB == 0)
+        return;
+      leftMotIncrement = speedA / 10.0;
+      rightMotIncrement = speedB / 10.0;
+
+      if (stateA == MotorState.ROTATE)
+      {
+        motorA.setIncrement((int)leftMotIncrement);
+        leftWheel.setDirection(leftMotDirection);
+        if (motorA.isForward)
+          leftMotDirection += leftMotIncrement;
+        else
+          leftMotDirection -= leftMotIncrement;
+        showLeftCount(motorA.getMotorCount());
+      }
+
+      if (stateB == MotorState.ROTATE)
+      {
+        motorB.setIncrement((int)rightMotIncrement);
+        rightWheel.setDirection(rightMotDirection);
+        if (motorB.isForward)
+          rightMotDirection += rightMotIncrement;
+        else
+          rightMotDirection -= rightMotIncrement;
+        showRightCount(motorB.getMotorCount());
+      }
+    }
+
+    private void updateMotors(ArrayList<Actor> motors) {
+      double radius;
+      Motor mot1 = (Motor) motors.get(0);
+      Motor mot2 = (Motor) motors.get(1);
+      Motor motorA;
+      Motor motorB;
+      if (mot1.getPort() == MotorPort.A)
+      {
+        motorA = mot1;
+        motorB = mot2;
+      }
+      else
+      {
+        motorA = mot2;
+        motorB = mot1;
+      }
+
+      int speedA = motorA.getSpeed();
+      int speedB = motorB.getSpeed();
+      if (speedA == 0 && speedB == 0)
+        return;
+      leftMotIncrement = speedA / 10.0;
+      rightMotIncrement = speedB / 10.0;
+      MotorState stateA = motorA.getState();
+      MotorState stateB = motorB.getState();
+      initWheelActors();
+
+      if (stateA == MotorState.ROTATE)
+      {
+        motorA.setIncrement((int)leftMotIncrement);
+        leftWheel.setDirection(leftMotDirection);
+        if (motorA.isForward)
+          leftMotDirection += leftMotIncrement;
+        else
+          leftMotDirection -= leftMotIncrement;
+        showCount(motorA.getMotorCount(), motorB.getMotorCount());
+      }
+
+      if (stateB == MotorState.ROTATE)
+      {
+        motorB.setIncrement((int)rightMotIncrement);
+        rightWheel.setDirection(rightMotDirection);
+        if (motorB.isForward)
+          rightMotDirection += rightMotIncrement;
+        else
+          rightMotDirection -= rightMotIncrement;
+        showCount(motorA.getMotorCount(), motorB.getMotorCount());
+      }
+
+      if (stateA != oldMotorStateA || stateB != oldMotorStateB || speedA != oldSpeedA || speedB != oldSpeedB)  // State change
+      {
+        oldMotorStateA = stateA;
+        oldMotorStateB = stateB;
+        oldSpeedA = speedA;
+        oldSpeedB = speedB;
+        isRotationInit = true;
+      }
+
+      if (stateA == MotorState.FORWARD && stateB == MotorState.FORWARD)
+      {
+        if (speedA == speedB)
+          advance(SharedConstants.nbSteps * speedA);
         else
         {
-          motorA = null;
-          motorB = mot;
-          speedA = 0;
-          speedB = motorB.getSpeed();
-          stateA = null;
-          stateB = motorB.getState();
-          initRightWheelActor();
+          if (isRotationInit)
+          {
+            isRotationInit = false;
+            sign = (speedA > speedB ? -1 : 1);
+            radius = wheelDistance / 2.0 * (speedA + speedB) / Math.abs(speedB - speedA);
+            initRot(sign * radius);
+            rotInc = SharedConstants.motorRotIncFactor * (speedA + speedB) / radius;
+          }
+          double rot = sign * rotInc;
+          pos = getRotatedPosition(pos, rotCenter, rot);
+          setLocation(new Location((int)(pos.x), (int)(pos.y)));
+          dir += rot;
+          setDirection(dir);
         }
+        leftWheel.setDirection(leftMotDirection);
+        rightWheel.setDirection(rightMotDirection);
+        leftMotDirection += leftMotIncrement;
+        rightMotDirection += rightMotIncrement;
+        showCount((int)leftMotDirection, (int)rightMotDirection);
+      }
 
-        if (speedA == 0 && speedB == 0)
-          return;
-        leftMotIncrement = speedA / 10.0;
-        rightMotIncrement = speedB / 10.0;
-
-        if (stateA == MotorState.ROTATE)
+      if (stateA == MotorState.BACKWARD && stateB == MotorState.BACKWARD)
+      {
+        if (speedA == speedB)
+          advance(-SharedConstants.nbSteps * speedA);
+        else
         {
-          motorA.setIncrement((int)leftMotIncrement);
-          leftWheel.setDirection(leftMotDirection);
-          if (motorA.isForward)
-            leftMotDirection += leftMotIncrement;
-          else
-            leftMotDirection -= leftMotIncrement;
-          showLeftCount(motorA.getMotorCount());
+          if (isRotationInit)
+          {
+            isRotationInit = false;
+            sign = (speedA > speedB ? -1 : 1);
+            radius = wheelDistance / 2.0 * (speedA + speedB) / Math.abs(speedA - speedB);
+            initRot(sign * radius);
+            rotInc = SharedConstants.motorRotIncFactor * (speedA + speedB) / radius;
+          }
+          double rot = -sign * rotInc;
+          pos = getRotatedPosition(pos, rotCenter, rot);
+          setLocation(new Location((int)(pos.x), (int)(pos.y)));
+          dir += rot;
+          setDirection(dir);
         }
+        leftWheel.setDirection(leftMotDirection);
+        rightWheel.setDirection(rightMotDirection);
+        leftMotDirection -= leftMotIncrement;
+        rightMotDirection -= rightMotIncrement;
+        showCount((int)leftMotDirection, (int)rightMotDirection);
+      }
 
-        if (stateB == MotorState.ROTATE)
+      if (stateA == MotorState.BACKWARD && stateB == MotorState.FORWARD)
+      {
+        if (speedA == speedB)
+          turn(-(int)(speedA * SharedConstants.motTurnAngle));
+        else
         {
-          motorB.setIncrement((int)rightMotIncrement);
-          rightWheel.setDirection(rightMotDirection);
-          if (motorB.isForward)
-            rightMotDirection += rightMotIncrement;
-          else
-            rightMotDirection -= rightMotIncrement;
-          showRightCount(motorB.getMotorCount());
+          if (isRotationInit)
+          {
+            isRotationInit = false;
+            sign = (speedA > speedB ? -1 : 1);
+            radius = wheelDistance / 200.0 * Math.abs(speedA - speedB);
+            initRot(sign * radius);
+            rotInc = SharedConstants.motorRotIncFactor * Math.max(speedA, speedB) / (wheelDistance + radius);
+          }
+          double rot = -rotInc;
+          pos = getRotatedPosition(pos, rotCenter, rot);
+          setLocation(new Location((int)(pos.x), (int)(pos.y)));
+          dir += rot;
+          setDirection(dir);
         }
+        leftWheel.setDirection(leftMotDirection);
+        rightWheel.setDirection(rightMotDirection);
+        leftMotDirection -= leftMotIncrement;
+        rightMotDirection += rightMotIncrement;
+        showCount((int)leftMotDirection, (int)rightMotDirection);
+      }
+
+      if (stateA == MotorState.FORWARD && stateB == MotorState.BACKWARD)
+      {
+        if (speedA == speedB)
+          turn((int)(speedA * SharedConstants.motTurnAngle));
+        else
+        {
+          if (isRotationInit)
+          {
+            isRotationInit = false;
+            sign = (speedA > speedB ? -1 : 1);
+            radius = wheelDistance / 200.0 * Math.abs(speedA - speedB);
+            initRot(sign * radius);
+            rotInc = SharedConstants.motorRotIncFactor * Math.max(speedA, speedB) / (wheelDistance - Math.abs(radius));
+          }
+          double rot = rotInc;
+          pos = getRotatedPosition(pos, rotCenter, rot);
+          setLocation(new Location((int)(pos.x), (int)(pos.y)));
+          dir += rot;
+          setDirection(dir);
+        }
+        leftWheel.setDirection(leftMotDirection);
+        rightWheel.setDirection(rightMotDirection);
+        leftMotDirection += leftMotIncrement;
+        rightMotDirection -= rightMotIncrement;
+        showCount((int)leftMotDirection, (int)rightMotDirection);
+      }
+
+      if (stateA == MotorState.STOPPED && stateB == MotorState.FORWARD)
+      {
+        if (isRotationInit)
+        {
+          isRotationInit = false;
+          radius = wheelDistance / 2;
+          initRot(-radius);
+          rotInc = SharedConstants.motorRotIncFactor * speedA / radius;
+        }
+        double rot = -rotInc;
+        pos = getRotatedPosition(pos, rotCenter, rot);
+        setLocation(new Location((int)(pos.x), (int)(pos.y)));
+        dir += rot;
+        setDirection(dir);
+        leftWheel.setDirection(leftMotDirection);
+        rightWheel.setDirection(rightMotDirection);
+        rightMotDirection += rightMotIncrement;
+        showCount((int)leftMotDirection, (int)rightMotDirection);
+      }
+
+      if (stateA == MotorState.STOPPED && stateB == MotorState.BACKWARD)
+      {
+        if (isRotationInit)
+        {
+          isRotationInit = false;
+          radius = wheelDistance / 2;
+          initRot(-radius);
+          rotInc = SharedConstants.motorRotIncFactor * speedA / radius;
+        }
+        double rot = rotInc;
+        pos = getRotatedPosition(pos, rotCenter, rot);
+        setLocation(new Location((int)(pos.x), (int)(pos.y)));
+        dir += rot;
+        setDirection(dir);
+        leftWheel.setDirection(leftMotDirection);
+        rightWheel.setDirection(rightMotDirection);
+        rightMotDirection -= rightMotIncrement;
+        showCount((int)leftMotDirection, (int)rightMotDirection);
+      }
+
+      if (stateA == MotorState.FORWARD && stateB == MotorState.STOPPED)
+      {
+        if (isRotationInit)
+        {
+          isRotationInit = false;
+          radius = wheelDistance / 2;
+          initRot(radius);
+          rotInc = SharedConstants.motorRotIncFactor * speedB / radius;
+        }
+        double rot = rotInc;
+        pos = getRotatedPosition(pos, rotCenter, rot);
+        setLocation(new Location((int)(pos.x), (int)(pos.y)));
+        dir += rot;
+        setDirection(dir);
+        leftWheel.setDirection(leftMotDirection);
+        rightWheel.setDirection(rightMotDirection);
+        leftMotDirection += leftMotIncrement;
+        showCount((int)leftMotDirection, (int)rightMotDirection);
+      }
+
+      if (stateA == MotorState.BACKWARD && stateB == MotorState.STOPPED)
+      {
+        if (isRotationInit)
+        {
+          isRotationInit = false;
+          radius = wheelDistance / 2;
+          initRot(radius);
+          rotInc = SharedConstants.motorRotIncFactor * speedB / radius;
+        }
+        double rot = -rotInc;
+        pos = getRotatedPosition(pos, rotCenter, rot);
+        setLocation(new Location((int)(pos.x), (int)(pos.y)));
+        dir += rot;
+        setDirection(dir);
+        leftWheel.setDirection(leftMotDirection);
+        rightWheel.setDirection(rightMotDirection);
+        leftMotDirection -= leftMotIncrement;
+        showCount((int)leftMotDirection, (int)rightMotDirection);
       }
     }
 

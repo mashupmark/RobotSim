@@ -356,6 +356,7 @@ public class LegoRobot
 
       // ------------------ We have a gear --------------------
       if (gear != null) {
+        // ToDo: Check why we create multiple threads
         new Thread(() -> updateGear(gear)).start();
       }
 

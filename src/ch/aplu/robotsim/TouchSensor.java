@@ -33,7 +33,7 @@ public class TouchSensor extends Part
    *  1. Runnable consumes less memory than extending the Thread class. This is especially important on devices with little memory, like the EV3.
    *  2. By implementing the Runnable Interface, the class can extend an other class and implement other interfaces.
    */
-  private class SensorThread extends Thread
+  private class SensorThread implements Runnable
   {
     public void run()
     {
@@ -124,7 +124,7 @@ public class TouchSensor extends Part
       if (touchListener == null)
       {
         isRunning = true;
-        st.start();
+        st.run();
       }
       touchListener = listener;
     }

@@ -25,9 +25,6 @@ public class TouchSensor extends Part
 {
 
   /**
-   * Thread for the TouchSensor
-   *
-   * Alternative 1:
    *  An alternative for paralleling TouchSensor would be to implement the Runnable interface.
    *
    *  Advantages:
@@ -37,16 +34,6 @@ public class TouchSensor extends Part
    *
    *  Disadvantages:
    *   1. Doesn't have its own separated object.
-   *
-   * Alternative 2:
-   *  By extending the full Thread class an independent thread for every TouchSensor could be created.
-   *
-   *  Advantages:
-   *   1. By extending the class Thread each SensorThread is its own separate object.
-   *
-   *  Disadvantages:
-   *   1. Creating a full thread consumes more memory which can be pretty important on smaller devices.
-   *   2. By extending the class Thread, SensorThread can not extend any other class.
    */
   private class SensorThread implements Runnable
   {
@@ -60,7 +47,7 @@ public class TouchSensor extends Part
           {
             monitor.wait();
           }
-          catch (InterruptedException ex)
+          catch (InterruptedException ignored)
           {
           }
         }
@@ -90,7 +77,7 @@ public class TouchSensor extends Part
   private static final Point endPointRear = new Point(-5, 4);
   private int nbObstacles = 0;
   private TouchListener touchListener = null;
-  private SensorPort port;
+  private final SensorPort port;
   private Actor collisionActor = null;
   private final SensorThread st = new SensorThread();
   private volatile boolean isRunning = false;

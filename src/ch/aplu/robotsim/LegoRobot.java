@@ -286,26 +286,14 @@ public class LegoRobot {
          * By paralleling the update process of the individual parts it gets more efficient.
          * That way also the communication to the motors is parallelized.
          *
-         * Alternative 1:
-         *  While the act method should only be accessed by one thread at a time, its contents are independent from each other and thus can be invoked in parallel.
+         * While the act method should only be accessed by one thread at a time, its contents are independent from each other and thus can be invoked in parallel.
          *
-         *  Advantages:
-         *   1. By paralleling the invocation of the individual part updates, a better overall performance can be archived.
-         *   2. On single threaded hardware the parts can still run in serial or concurrently.
-         *  Disadvantages:
-         *   1. The individual parts must be updated at the end of act and therefore need to be joined before exiting the method.
-         *   2. Otherwise the individual update methods would need to be synchronized, in order to prevent possible race conditions.
-         *
-         * Alternative 2:
-         *  The act method is invoked by the underlying JGameGrid.
-         *  It should only be accessed by one Thread at a time, so the whole update process is synchronized using a monitor.
-         *
-         *  Advantages:
-         *   1.The code is synchronized across all instances of LegoRobot, this way simultaneous calls to act are prevented.
-         *   2.This improves the trace- and debuggability of the code.
-         *  Disadvantages:
-         *   1. The individual parts of the robot are updated one after another, while being independent from each other.
-         *   2. This results in worse performance.
+         * Advantages:
+         *  1. By paralleling the invocation of the individual part updates, a better overall performance can be archived.
+         *  2. On single threaded hardware the parts can still run in serial or concurrently.
+         * Disadvantages:
+         *  1. The individual parts must be updated at the end of act and therefore need to be joined before exiting the method.
+         *  2. Otherwise the individual update methods would need to be synchronized, in order to prevent possible race conditions.
          */
         public void act() {
             if (!title.equals("") && isCollisionInfo) {

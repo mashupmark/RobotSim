@@ -27,11 +27,26 @@ public class TouchSensor extends Part
   /**
    * Thread for the TouchSensor
    *
-   * Advantages:
-   *  1. Doesn't have its own separated object.
-   * Disadvantages:
-   *  1. Runnable consumes less memory than extending the Thread class. This is especially important on devices with little memory, like the EV3.
-   *  2. By implementing the Runnable Interface, the class can extend an other class and implement other interfaces.
+   * Alternative 1:
+   *  An alternative for paralleling TouchSensor would be to implement the Runnable interface.
+   *
+   *  Advantages:
+   *   1. Runnable consumes less memory than extending the Thread class. This is especially important on devices with little memory, like the EV3.
+   *   2. By implementing the Runnable Interface, the class can extend an other class and implement other interfaces.
+   *   3. Runnables can be represented using lambda streams, which increases flexibility and readability of the code.
+   *
+   *  Disadvantages:
+   *   1. Doesn't have its own separated object.
+   *
+   * Alternative 2:
+   *  By extending the full Thread class an independent thread for every TouchSensor could be created.
+   *
+   *  Advantages:
+   *   1. By extending the class Thread each SensorThread is its own separate object.
+   *
+   *  Disadvantages:
+   *   1. Creating a full thread consumes more memory which can be pretty important on smaller devices.
+   *   2. By extending the class Thread, SensorThread can not extend any other class.
    */
   private class SensorThread extends Thread
   {

@@ -326,7 +326,7 @@ public class LegoRobot
      * That way also the communication to the motors is parallelized.
      *
      * Alternative 1:
-     *  While the act method should only be accessed by one thread at a time, its contents are independent from each other and thus can be invoked in parallel.
+     *  The act methods contents are independent from each other and thus can be invoked in parallel.
      *
      *  Advantages:
      *   1. By paralleling the invocation of the individual part updates, a better overall performance can be archived.
